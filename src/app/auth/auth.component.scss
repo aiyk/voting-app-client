@@ -1,0 +1,43 @@
+.auth__pagetitle {
+  font-size: 3rem;
+  margin-bottom: 4rem;
+}
+.authParent__wrap{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--primary-color);
+}
+.authChild__wrap {
+  padding: 2rem;
+  background: #fff;
+  border-radius: .5rem;
+}
+.authChild__title {
+  font-size: 2rem;
+  color: #777;
+}
+.auth__actions{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  width: 40rem;
+}
+.auth__switchControl{
+  font-style: italic;
+  font-size: 1.2rem;
+  color: #777;
+  outline: 0;
+}
+.auth__switchControl span{
+  font-style: normal;
+  font-size: 1.6rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding-left: 1rem;
+}
+.auth__switchControl span:hover{
+  color: var(--blue);
+}
