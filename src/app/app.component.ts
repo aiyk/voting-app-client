@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { User } from './_models/user';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +9,13 @@ import { AuthService } from './services/auth.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  constructor(private _authService: AuthService){}
+  
+  currentUser: User;
+
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {
+      this.authService.currentUser.subscribe(x => this.currentUser = x);
+  }
 }

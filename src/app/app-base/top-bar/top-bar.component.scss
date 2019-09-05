@@ -10,3 +10,11 @@
   font-size: 2rem;
   color: var(--text-secondary);
 }
+.topBarWrap__logout{
+  cursor: pointer;
+  color: #ff2500;
+  margin: 0 2rem;
+}
+.topBarWrap__logout:hover{
+  border-bottom: .1rem solid #ff2500;
+}

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
+import { AuthGuard } from '../_helpers/auth.guard';
 
 import { AppBaseComponent } from './app-base.component';
 import { CountriesFormComponent } from './countries/countries-form/countries-form.component';
@@ -13,10 +14,10 @@ const routes: Routes = [
     path: 'evote',
     component: AppBaseComponent,
     children: [
-      { path: '',  component: CountriesListComponent },
-      { path: 'countries',  component: CountriesListComponent },
+      { path: '',  component: CountriesListComponent, canActivate: [AuthGuard] },
+      { path: 'countries',  component: CountriesListComponent, canActivate: [AuthGuard] },
       { path: 'countries-update',  component: CountriesFormComponent },
-      { path: 'users',  component: UsersListComponent },
+      { path: 'users',  component: UsersListComponent, canActivate: [AuthGuard] },
       { path: 'users-update',  component: UsersFormComponent },
       // { path: 'application-form',
       //   component: ApplicationFormComponent,
