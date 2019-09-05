@@ -1,0 +1,12 @@
+.topBarWrap{
+  width: 100%;
+  padding: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #eee;
+}
+.topBarWrap__logo{
+  font-size: 2rem;
+  color: var(--text-secondary);
+}

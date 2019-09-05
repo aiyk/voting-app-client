@@ -1,0 +1,17 @@
+.mainMenu__list {
+  font-size: 1.8rem;
+  color: var(--blue-lite);
+  border-right: .2rem solid var(--blue-lite);
+  padding-right: 2rem;
+}
+.mainMenu__item {
+  line-height: 1;
+  cursor: pointer;
+  text-align: right;
+  padding: 1rem;
+  outline: 0;
+}
+.mainMenu__item:hover{
+  background: var(--blue-lite);
+  color: #fff;
+}

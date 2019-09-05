@@ -1,0 +1,24 @@
+.pgContentWrap {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+.pgContentWrap__mainMenu{
+  width: 30rem;
+  margin-right: 2rem;
+  margin-top: 10rem;
+}
+.pgContentWrap__content{
+  width: 100%;
+}
+.pgTitle {
+  width: 100%;
+  height: 10rem;
+  font-size: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  span{color: #a1a1a1;}
+  button{color: #fff;}
+}

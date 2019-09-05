@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppBaseComponent implements OnInit {
 
+  pgTitle = 'Test Title';
+
   constructor() { }
 
   ngOnInit() {

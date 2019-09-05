@@ -13,7 +13,7 @@ import { User } from '../_models/user';
 })
 export class AuthService {
 
-  apiUrl = 'http://localhost:5000/api/election/';
+  apiUrl = 'http://localhost:5000/api/user';
 
   private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
@@ -28,13 +28,13 @@ export class AuthService {
     }
 
     login(username: string, password: string) {
-        return this.http.post<any>(`${this.apiUrl}/login`, { username, password })
-            .pipe(map(user => {
-                // store user details and jwt token in local storage to keep user logged in between page refreshes
-                localStorage.setItem('currentUser', JSON.stringify(user));
-                this.currentUserSubject.next(user);
-                return user;
-            }));
+      return this.http.post<any>(`${this.apiUrl}/login`, { username, password })
+        .pipe(map(user => { console.log(user);
+            // store user details and jwt token in local storage to keep user logged in between page refreshes
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            this.currentUserSubject.next(user);
+            return user;
+        }));
     }
 
     logout() {

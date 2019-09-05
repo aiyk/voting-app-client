@@ -1,17 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { User } from '../_models/user';
+import { Country } from '../_models/country';
+
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class CountryService {
 
-  apiUrl = 'http://localhost:5000/api/election';
+  apiUrl = 'http://localhost:5000/api/country';
 
   constructor(private http: HttpClient) { }
 
   getAll() {
-      return this.http.get<User[]>(`${this.apiUrl}/users`);
+      return this.http.get<Country[]>(`${this.apiUrl}/retrieve`);
   }
 }

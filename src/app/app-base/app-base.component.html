@@ -1,3 +1,16 @@
-<p>
-  app-base works!
-</p>
+<div class="appBodyWrap">
+  <app-top-bar></app-top-bar>
+  <div class="pgContentWrap">
+    <div class="pgContentWrap__mainMenu">
+      <app-main-menu></app-main-menu>
+    </div>
+
+    <div class="pgContentWrap__content">
+      <div class="pgTitle">
+        <span>{{pgTitle}}</span>
+        <button class="btn btn-blue">New Country</button>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
