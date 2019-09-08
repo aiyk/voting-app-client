@@ -415,7 +415,9 @@ button[disabled]{
   }
 }
 .tbody{
-  .tr{background-color: var(--white);}
+  .tr{
+    background: #f8f8f8;
+  }
 }
 .tr{
   display: grid;

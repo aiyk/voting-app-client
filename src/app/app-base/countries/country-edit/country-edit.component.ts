@@ -10,11 +10,11 @@ import { CountryService} from '../../../services/country.service';
 import { ActivePageService} from '../../../services/active-page.service';
 
 @Component({
-  selector: 'app-countries-form',
-  templateUrl: './countries-form.component.html',
-  styleUrls: ['./countries-form.component.scss']
+  selector: 'app-country-edit',
+  templateUrl: './country-edit.component.html',
+  styleUrls: ['./country-edit.component.scss']
 })
-export class CountriesFormComponent implements OnInit {
+export class CountryEditComponent implements OnInit {
 
   loading = false;
   countries: Country[];
@@ -22,6 +22,9 @@ export class CountriesFormComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+
+  id: string;
+  country: any = {};
 
   pgData = {
     title: 'New Country',
@@ -40,43 +43,50 @@ export class CountriesFormComponent implements OnInit {
 
   clickItemIndex: number;
   ngOnInit() {
+    this.id = this.route.snapshot.params['id'];
     this.loading = false;
-
-    this.pageData.changePageData(this.pgData);
 
     this.countryForm = this.formBuilder.group({
       country: ['', Validators.required]
     });
 
+    this.pageData.changePageData(this.pgData);
+    this.countryService.getById(this.id).subscribe(data => {
+      this.countryForm.controls.country.setValue (data.result.countryname, {});
+    });
+
     // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || './countries';
+    // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || './countries';
+    this.returnUrl = '/';
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.countryForm.controls; }
 
   onSubmit() {
-    this.submitted = true;
+    if(window.confirm('are you sure you want to update this record?')){
+      this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.countryForm.invalid) {
-        return;
-    }
+      // stop here if form is invalid
+      if (this.countryForm.invalid) {
+          return;
+      }
 
-    this.loading = true;
+      this.loading = true;
 
-    let country = {
-      countryname: this.f.country.value
-    };
+      this.country = {
+        countryname: this.f.country.value
+      };
 
-    this.countryService.create(country)
-    .subscribe((data: {}) => {
+      this.countryService.update(this.id, this.country)
+      .subscribe((data: {}) => { console.log(this.returnUrl);
           this.router.navigate([this.returnUrl]);
-      },
-      error => {
-          this.error = error;
-          this.loading = false;
-      });
+        },
+        error => {
+            this.error = error;
+            this.loading = false;
+        });
+    }
   }
 
 }

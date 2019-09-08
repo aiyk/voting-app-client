@@ -2,8 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { Country } from '../../../_models/country';
+
 import { AuthService } from '../../../services/auth.service';
 import { CountryService} from '../../../services/country.service';
+import { ActivePageService} from '../../../services/active-page.service';
 
 @Component({
   selector: 'app-countries-list',
@@ -16,25 +18,41 @@ export class CountriesListComponent implements OnInit {
   ddmenu_tblmenu = false;
   ddmenu_tblitem = false;
 
-  // countries: any[] = [
-  //   {
-  //     name: "Nigeria",
-  //     dateCreated: "11th Oct 2018"
-  //   }
-  // ];
-
   loading = false;
   countries: Country[];
 
-  constructor(private countryService: CountryService) { }
+  pgData = {
+    title: 'List of Countries',
+    button: {
+      title: 'New country',
+      route: 'countries-update'
+    }
+  };
+
+  constructor(private countryService: CountryService, private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
     this.loading = true;
-    this.countryService.getAll().pipe(first()).subscribe(countries => {
-      this.loading = false;
-      this.countries = countries.result;
+
+    this.loadCountries();
+
+    this.pageData.changePageData(this.pgData);
+  }
+
+  loadCountries(){
+    this.countryService.getAll().subscribe(countries => {
+      if(countries){
+        this.loading = false;
+        this.countries = countries.result;
+      }
     });
+  }
+
+  deleteCountry(id){
+    if(window.confirm('are you sure you want to permanently delete?')){
+      this.countryService.delete(id).subscribe(data => this.loadCountries());
+    }
   }
 
   tags_onclick() {

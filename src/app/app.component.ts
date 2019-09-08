@@ -9,7 +9,7 @@ import { User } from './_models/user';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  
+
   currentUser: User;
 
   constructor(

@@ -10,8 +10,14 @@
   text-align: right;
   padding: 1rem;
   outline: 0;
+  border-radius: 2rem;
+  border: .1rem solid transparent;
+  margin-bottom: .2rem;
 }
 .mainMenu__item:hover{
+  border: .1rem solid  var(--blue-lite);
+}
+.mainMenu__item--active{
   background: var(--blue-lite);
   color: #fff;
 }

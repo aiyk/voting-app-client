@@ -7,8 +7,8 @@
 
     <div class="pgContentWrap__content">
       <div class="pgTitle">
-        <span>{{pgTitle}}</span>
-        <button class="btn btn-blue">New Country</button>
+        <span>{{pgData.title}}</span>
+        <button [routerLink]="pgData.button.route" class="btn btn-blue">{{pgData.button.title}}</button>
       </div>
       <router-outlet></router-outlet>
     </div>

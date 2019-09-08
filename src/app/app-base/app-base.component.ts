@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivePageService} from '../services/active-page.service';
 
 @Component({
   selector: 'app-app-base',
@@ -7,11 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AppBaseComponent implements OnInit {
 
-  pgTitle = 'Test Title';
+  pgData = {};
 
-  constructor() { }
+  constructor(private pageData: ActivePageService) { }
 
   ngOnInit() {
+    this.pageData.activePage.subscribe(pgData => this.pgData = pgData);
   }
 
 }
