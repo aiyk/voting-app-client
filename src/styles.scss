@@ -671,6 +671,47 @@ button{
   }
 }
 
+.modal__overlay{
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background: rgba(0,0,0,.7);
+}
+.modal{
+  background: #fff;
+  border-radius: .5rem;
+  min-width: 30rem;
+  min-height: 30rem;
+}
+.modal__header{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: .1rem solid #ccc;
+  padding: 2rem;
+}
+.modal__title{
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: #333;
+}
+.modal__body{
+  padding: 2rem;
+}
+.modal__closeBtn{
+  cursor: pointer;
+  font-size: 1.2rem;
+  &:hover{
+    color: #ff2500;
+  }
+}
+
 @media only screen and (max-width: 650px) {
 
   /* Small screen, non-retina */

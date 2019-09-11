@@ -15,11 +15,16 @@
           <button (click)="tblmenuitem_onclick(i)" class="btn-hollow btn-elipsis-v-center btn-x0"></button>
           <div class="dropdown-wrap">
             <ul (click)="tblmenuitem_onclick('')" *ngIf="item_to_show(i)" class="dropdown-menu">
-              <li routerLink="../countries-update/{{country._id}}" ><img src="assets/icon-set/edit.svg"> Edit </li>
+              <!-- <li routerLink="../countries-update/{{country._id}}" ><img src="assets/icon-set/edit.svg"> Edit </li> -->
+              <li (click)="editItem(i)"><img src="assets/icon-set/edit.svg"> Edit </li>
               <li (click)="deleteCountry(country._id)"><img src="assets/icon-set/trash.svg"> Delete</li>
             </ul>
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="edit_mode" class="modal__overlay">
+    <app-country-edit [formData]="formData" (closeModal)="closeModal()"></app-country-edit> 
   </div>

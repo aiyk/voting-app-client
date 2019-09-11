@@ -1,0 +1,31 @@
+
+<form class="modal" [formGroup]="lgaForm" (ngSubmit)="onSubmit()">
+  <div class="modal__header">
+    <div class="modal__title">Edit Country</div>
+    <div (click)="onClose()" class="modal__closeBtn">X</div> 
+  </div>
+  <div class="modal__body">
+    <div class="formItem">
+      <label for="country">Country</label>
+      <select formControlName="country">
+        <option *ngFor="let country of countries" value="{{country._id}}">{{country.countryname}}</option>
+      </select>
+    </div>
+    <div class="formItem">
+      <label for="state">State</label>
+      <select formControlName="state">
+        <option *ngFor="let state of states" value="{{state._id}}">{{state.statename}}</option>
+      </select>
+    </div>
+    <div class="formItem">
+      <label for="lga">LGA</label>
+      <input type="text" formControlName="lga">
+    </div>
+    <div class="auth__actions">
+      <button [disabled]="loading" class="btn btn-blue" type="submit">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Save
+      </button>
+    </div>
+  </div>
+</form>

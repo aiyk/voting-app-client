@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -22,6 +22,10 @@ export class CountryEditComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+  editMode = false;
+
+  @Output() closeModal = new EventEmitter();
+  @Input() formData: any;
 
   id: string;
   country: any = {};
@@ -47,12 +51,13 @@ export class CountryEditComponent implements OnInit {
     this.loading = false;
 
     this.countryForm = this.formBuilder.group({
-      country: ['', Validators.required]
+      country: [this.formData.countryname, Validators.required]
     });
 
     this.pageData.changePageData(this.pgData);
+
     this.countryService.getById(this.id).subscribe(data => {
-      this.countryForm.controls.country.setValue (data.result.countryname, {});
+      this.countryForm.controls.country.value(data.result.countryname, {});
     });
 
     // get return url from route parameters or default to '/'
@@ -62,6 +67,10 @@ export class CountryEditComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.countryForm.controls; }
+
+  onClose() {
+    this.closeModal.emit();
+  }
 
   onSubmit() {
     if(window.confirm('are you sure you want to update this record?')){

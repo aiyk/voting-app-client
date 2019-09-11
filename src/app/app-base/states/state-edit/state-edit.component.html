@@ -1,6 +1,5 @@
 
-
-<form class="modal" [formGroup]="countryForm" (ngSubmit)="onSubmit()">
+<form class="modal" [formGroup]="stateForm" (ngSubmit)="onSubmit()">
   <div class="modal__header">
     <div class="modal__title">Edit Country</div>
     <div (click)="onClose()" class="modal__closeBtn">X</div>
@@ -8,7 +7,13 @@
   <div class="modal__body">
     <div class="formItem">
       <label for="country">Country</label>
-      <input type="text" formControlName="country">
+      <select formControlName="country">
+        <option *ngFor="let country of countries" value="{{country._id}}">{{country.countryname}}</option>
+      </select>
+    </div>
+    <div class="formItem">
+      <label for="state">State</label>
+      <input type="text" formControlName="state">
     </div>
     <div class="auth__actions">
       <button [disabled]="loading" class="btn btn-blue" type="submit">

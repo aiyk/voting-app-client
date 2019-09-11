@@ -13,9 +13,13 @@ import { UsersListComponent } from './users/users-list/users-list.component';
 import { StatesFormComponent } from './states/states-form/states-form.component';
 import { StatesListComponent } from './states/states-list/states-list.component';
 import { CountryEditComponent } from './countries/country-edit/country-edit.component';
+import { StateEditComponent } from './states/state-edit/state-edit.component';
+import { LgaListComponent } from './lga/lga-list/lga-list.component';
+import { LgaEditComponent } from './lga/lga-edit/lga-edit.component';
+import { LgaFormComponent } from './lga/lga-form/lga-form.component';
 
 @NgModule({
-  declarations: [AppBaseComponent, MainMenuComponent, TopBarComponent, CountriesFormComponent, CountriesListComponent, UsersFormComponent, UsersListComponent, StatesFormComponent, StatesListComponent, CountryEditComponent],
+  declarations: [AppBaseComponent, MainMenuComponent, TopBarComponent, CountriesFormComponent, CountriesListComponent, UsersFormComponent, UsersListComponent, StatesFormComponent, StatesListComponent, CountryEditComponent, StateEditComponent, LgaListComponent, LgaEditComponent, LgaFormComponent],
   imports: [
     CommonModule,
     AppBaseRoutingModule,

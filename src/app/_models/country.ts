@@ -1,5 +1,5 @@
 export class Country {
-  _id: number;
+  _id: string;
   countryname: string;
   created: string;
 }

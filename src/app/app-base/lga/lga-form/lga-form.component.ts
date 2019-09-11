@@ -5,41 +5,45 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Country } from '../../../_models/country';
 import { State } from '../../../_models/state';
+import { Lga } from '../../../_models/lga';
 
 import { AuthService } from '../../../services/auth.service';
 import { CountryService} from '../../../services/country.service';
 import { StatesService} from '../../../services/states.service';
+import { LgaService} from '../../../services/lga.service';
 import { ActivePageService} from '../../../services/active-page.service';
 
 @Component({
-  selector: 'app-states-form',
-  templateUrl: './states-form.component.html',
-  styleUrls: ['./states-form.component.scss']
+  selector: 'app-lga-form',
+  templateUrl: './lga-form.component.html',
+  styleUrls: ['./lga-form.component.scss']
 })
-export class StatesFormComponent implements OnInit {
+export class LgaFormComponent implements OnInit {
 
   loading = false;
   states: State[];
   countries: Country[];
-  stateForm: FormGroup;
+  lgas: Lga[];
+  lgaForm: FormGroup;
   submitted = false;
   returnUrl: string;
   error = '';
 
   id: string;
-  state: any = {};
+  lga: any = {};
 
   pgData = {
-    title: 'New State',
+    title: 'New LGA',
     button: {
-      title: 'List states',
-      route: 'states'
+      title: 'List LGAs',
+      route: 'lga'
     }
   };
 
   constructor(
     private countryService: CountryService,
     private stateService: StatesService,
+    private lgaService: LgaService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -50,14 +54,18 @@ export class StatesFormComponent implements OnInit {
     this.loading = false;
 
     this.loadCountries();
-    this.stateForm = this.formBuilder.group({
+    this.loadStates();
+
+    this.lgaForm = this.formBuilder.group({
       country: ['', Validators.required],
-      state: ['', Validators.required]
+      state: ['', Validators.required],
+      lga: ['', Validators.required]
     });
+
 
     this.pageData.changePageData(this.pgData);
     // this.stateService.getById(this.id).subscribe(data => {
-    //   this.stateForm.controls.state.setValue (data.result.statename, {});
+    //   this.lgaForm.controls.state.setValue (data.result.statename, {});
     // });
 
     // get return url from route parameters or default to '/'
@@ -66,7 +74,7 @@ export class StatesFormComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.stateForm.controls; }
+  get f() { return this.lgaForm.controls; }
 
   loadCountries(){
     this.countryService.getAll().subscribe(countries => {
@@ -76,23 +84,32 @@ export class StatesFormComponent implements OnInit {
       }
     });
   }
+  loadStates(){
+    this.stateService.getAll().subscribe(states => {
+      if(states){
+        this.loading = false;
+        this.states = states.result;
+      }
+    });
+  }
 
   onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.stateForm.invalid) {
+    if (this.lgaForm.invalid) {
         return;
     }
 
     this.loading = true;
 
-    let state = {
-      statename: this.f.state.value,
+    let lga = {
+      lganame: this.f.lga.value,
+      state_id: this.f.state.value,
       country_id: this.f.country.value
     };
 
-    this.stateService.create(state)
+    this.lgaService.create(lga)
     .subscribe((data: {}) => {
           this.router.navigate([this.returnUrl]);
       },

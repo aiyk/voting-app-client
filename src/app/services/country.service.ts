@@ -21,6 +21,10 @@ export class CountryService {
       return this.http.get<Country>(`${this.apiUrl}/retrieve`);
   }
 
+  getQuery(query): Observable<Country>  {
+      return this.http.get<Country>(`${this.apiUrl}/retrieve/?${query}`);
+  }
+
   getById(id): Observable<Country>  {
     return this.http.get<Country>(`${this.apiUrl}/retrieve/` + id);
 }

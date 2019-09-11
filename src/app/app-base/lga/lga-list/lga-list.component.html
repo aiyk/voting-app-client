@@ -1,25 +1,29 @@
 <div class="table">
   <div class="thead">
     <div class="tr">
-      <div class="th">State</div>
+      <div class="th">Lga</div>
       <div class="th">Date created</div>
       <div class="th"></div>
     </div>
   </div>
 
   <div class="tbody">
-    <div *ngFor="let state of states; let i = index" class="tr">
-      <div class="td">{{state.statename}}</div>
-      <div class="td">{{state.created}}</div>
+    <div *ngFor="let lga of lga; let i = index" class="tr">
+      <div class="td">{{lga.lganame}}</div>
+      <div class="td">{{lga.created}}</div>
       <div class="td td-actions dropdown-wrap">
         <button (click)="tblmenuitem_onclick(i)" class="btn-hollow btn-elipsis-v-center btn-x0"></button>
         <div class="dropdown-wrap">
           <ul (click)="tblmenuitem_onclick('')" *ngIf="item_to_show(i)" class="dropdown-menu">
             <li (click)="editItem(i)" ><img src="assets/icon-set/edit.svg"> Edit </li>
-            <li (click)="deleteState(state._id)"><img src="assets/icon-set/trash.svg"> Delete</li>
+            <li (click)="deleteLga(lga._id)"><img src="assets/icon-set/trash.svg"> Delete</li>
           </ul>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<div *ngIf="edit_mode" class="modal__overlay">
+  <app-lga-edit [formData]="formData" (closeModal)="closeModal()"></app-lga-edit>
 </div>

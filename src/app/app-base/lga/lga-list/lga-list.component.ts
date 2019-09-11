@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { State } from '../../../_models/state';
+import { Lga } from '../../../_models/lga';
 
 import { AuthService } from '../../../services/auth.service';
-import { StatesService} from '../../../services/states.service';
+import { LgaService} from '../../../services/lga.service';
 import { ActivePageService} from '../../../services/active-page.service';
-import { StateEditComponent } from '../state-edit/state-edit.component';
+import { LgaEditComponent } from '../lga-edit/lga-edit.component';
 
 @Component({
-  selector: 'app-states-list',
-  templateUrl: './states-list.component.html',
-  styleUrls: ['./states-list.component.scss']
+  selector: 'app-lga-list',
+  templateUrl: './lga-list.component.html',
+  styleUrls: ['./lga-list.component.scss']
 })
-export class StatesListComponent implements OnInit {
+export class LgaListComponent implements OnInit {
 
   ddmenu_tags = false;
   ddmenu_tblmenu = false;
@@ -21,48 +21,48 @@ export class StatesListComponent implements OnInit {
   edit_mode = false;
 
   loading = false;
-  states: State[];
+  lga: Lga[];
   formData: any;
 
   pgData = {
-    title: 'List of states',
+    title: 'List of lga',
     button: {
-      title: 'New state',
-      route: 'states-update'
+      title: 'New lga',
+      route: 'lga-update'
     }
   };
 
-  constructor(private stateService: StatesService, private pageData: ActivePageService) { }
+  constructor(private lgaService: LgaService, private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
     this.loading = true;
 
-    this.loadstates();
+    this.loadlgas();
 
     this.pageData.changePageData(this.pgData);
   }
 
-  loadstates(){
-    this.stateService.getAll().subscribe(states => {
-      if(states){
+  loadlgas(){
+    this.lgaService.getAll().subscribe(lga => {
+      if(lga){
         this.loading = false;
-        this.states = states.result;
+        this.lga = lga.result;
       }
     });
   }
 
   editItem(i){
-    this.formData = this.countries[i];
+    this.formData = this.lga[i];
     this.edit_mode = !this.edit_mode;
   }
   closeModal(){
     this.edit_mode = false;
   }
 
-  deleteState(id){
+  deleteLga(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.stateService.delete(id).subscribe(data => this.loadstates());
+      this.lgaService.delete(id).subscribe(data => this.loadlgas());
     }
   }
 

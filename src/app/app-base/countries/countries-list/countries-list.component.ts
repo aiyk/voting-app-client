@@ -6,6 +6,7 @@ import { Country } from '../../../_models/country';
 import { AuthService } from '../../../services/auth.service';
 import { CountryService} from '../../../services/country.service';
 import { ActivePageService} from '../../../services/active-page.service';
+import { CountryEditComponent } from '../country-edit/country-edit.component'
 
 @Component({
   selector: 'app-countries-list',
@@ -17,9 +18,11 @@ export class CountriesListComponent implements OnInit {
   ddmenu_tags = false;
   ddmenu_tblmenu = false;
   ddmenu_tblitem = false;
+  edit_mode = false;
 
   loading = false;
   countries: Country[];
+  formData: any;
 
   pgData = {
     title: 'List of Countries',
@@ -49,9 +52,17 @@ export class CountriesListComponent implements OnInit {
     });
   }
 
+  editItem(i){
+    this.formData = this.countries[i];
+    this.edit_mode = !this.edit_mode;
+  }
+  closeModal(){
+    this.edit_mode = false;
+  }
+
   deleteCountry(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.countryService.delete(id).subscribe(data => this.loadCountries());
+      this.countryService.delete(id).subscribe(data => this.loadCountries()); 
     }
   }
 

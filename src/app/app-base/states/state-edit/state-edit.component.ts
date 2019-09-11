@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -12,11 +12,11 @@ import { StatesService} from '../../../services/states.service';
 import { ActivePageService} from '../../../services/active-page.service';
 
 @Component({
-  selector: 'app-states-form',
-  templateUrl: './states-form.component.html',
-  styleUrls: ['./states-form.component.scss']
+  selector: 'app-state-edit',
+  templateUrl: './state-edit.component.html',
+  styleUrls: ['./state-edit.component.scss']
 })
-export class StatesFormComponent implements OnInit {
+export class StateEditComponent implements OnInit {
 
   loading = false;
   states: State[];
@@ -25,12 +25,16 @@ export class StatesFormComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
+  editMode = false;
+
+  @Output() closeModal = new EventEmitter();
+  @Input() formData: any;
 
   id: string;
   state: any = {};
 
   pgData = {
-    title: 'New State',
+    title: 'Edit State',
     button: {
       title: 'List states',
       route: 'states'
@@ -47,18 +51,22 @@ export class StatesFormComponent implements OnInit {
 
   clickItemIndex: number;
   ngOnInit() {
+    this.id = this.route.snapshot.params['id'];
     this.loading = false;
 
     this.loadCountries();
     this.stateForm = this.formBuilder.group({
-      country: ['', Validators.required],
-      state: ['', Validators.required]
+      country: [this.formData.country_id, Validators.required],
+      state: [this.formData.statename, Validators.required]
     });
 
     this.pageData.changePageData(this.pgData);
-    // this.stateService.getById(this.id).subscribe(data => {
-    //   this.stateForm.controls.state.setValue (data.result.statename, {});
-    // });
+    this.countryService.getById(this.formData.country_id).subscribe(data => {
+      this.stateForm.controls.country.value(data.result.countryname, {});
+    });
+    this.stateService.getById(this.id).subscribe(data => {
+      this.stateForm.controls.state.setValue (data.result.statename, {});
+    });
 
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || './countries';
@@ -67,6 +75,10 @@ export class StatesFormComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get f() { return this.stateForm.controls; }
+
+  onClose() {
+    this.closeModal.emit();
+  }
 
   loadCountries(){
     this.countryService.getAll().subscribe(countries => {
@@ -78,28 +90,30 @@ export class StatesFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.submitted = true;
+    if(window.confirm('are you sure you want to update this record?')){
+      this.submitted = true;
 
-    // stop here if form is invalid
-    if (this.stateForm.invalid) {
-        return;
-    }
+      // stop here if form is invalid
+      if (this.stateForm.invalid) {
+          return;
+      }
 
-    this.loading = true;
+      this.loading = true;
 
-    let state = {
-      statename: this.f.state.value,
-      country_id: this.f.country.value
-    };
+      this.state = {
+        countryname: this.f.country.value,
+        statename: this.f.state.value
+      };
 
-    this.stateService.create(state)
-    .subscribe((data: {}) => {
+      this.stateService.update(this.id, this.state)
+      .subscribe((data: {}) => {
           this.router.navigate([this.returnUrl]);
-      },
-      error => {
-          this.error = error;
-          this.loading = false;
-      });
+        },
+        error => {
+            this.error = error;
+            this.loading = false;
+        });
+    }
   }
 
 }

@@ -1,5 +1,5 @@
 
-<form [formGroup]="stateForm" (ngSubmit)="onSubmit()">
+<form [formGroup]="lgaForm" (ngSubmit)="onSubmit()">
   <div class="formItem">
     <label for="country">Country</label>
     <select formControlName="country">
@@ -8,7 +8,13 @@
   </div>
   <div class="formItem">
     <label for="state">State</label>
-    <input type="text" formControlName="state">
+    <select formControlName="state">
+      <option *ngFor="let state of states" value="{{state._id}}">{{state.statename}}</option>
+    </select>
+  </div>
+  <div class="formItem">
+    <label for="lga">LGA</label>
+    <input type="text" formControlName="lga">
   </div>
   <div class="auth__actions">
     <button [disabled]="loading" class="btn btn-blue" type="submit">
