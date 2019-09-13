@@ -26,5 +26,5 @@
   </div>
 
   <div *ngIf="edit_mode" class="modal__overlay">
-    <app-country-edit [formData]="formData" (closeModal)="closeModal()"></app-country-edit> 
+    <app-country-edit [formData]="formData" (closeModal)="closeModal()" [countryId]="countryId"></app-country-edit>
   </div>

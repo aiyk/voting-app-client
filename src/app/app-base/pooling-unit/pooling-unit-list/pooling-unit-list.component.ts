@@ -1,19 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
-import { Country } from '../../../_models/country';
+import { PoolingUnit } from '../../../_models/pooling-unit';
 
 import { AuthService } from '../../../services/auth.service';
-import { CountryService} from '../../../services/country.service';
+import { PoolingUnitService} from '../../../services/pooling-unit.service';
 import { ActivePageService} from '../../../services/active-page.service';
-import { CountryEditComponent } from '../country-edit/country-edit.component'
+import { PoolingUnitEditComponent } from '../pooling-unit-edit/pooling-unit-edit.component';
 
 @Component({
-  selector: 'app-countries-list',
-  templateUrl: './countries-list.component.html',
-  styleUrls: ['./countries-list.component.scss']
+  selector: 'app-pooling-unit-list',
+  templateUrl: './pooling-unit-list.component.html',
+  styleUrls: ['./pooling-unit-list.component.scss']
 })
-export class CountriesListComponent implements OnInit {
+export class PoolingUnitListComponent implements OnInit {
 
   ddmenu_tags = false;
   ddmenu_tblmenu = false;
@@ -21,50 +21,48 @@ export class CountriesListComponent implements OnInit {
   edit_mode = false;
 
   loading = false;
-  countries: Country[];
+  unit: PoolingUnit[];
   formData: any;
-  countryId: string;
 
   pgData = {
-    title: 'List of Countries',
+    title: 'List of Pooling Units',
     button: {
-      title: 'New country',
-      route: 'countries-update'
+      title: 'New pooling unit',
+      route: 'unit-update'
     }
   };
 
-  constructor(private countryService: CountryService, private pageData: ActivePageService) { }
+  constructor(private poolingUnitService: PoolingUnitService, private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
     this.loading = true;
 
-    this.loadCountries();
+    this.loadUnit();
 
     this.pageData.changePageData(this.pgData);
   }
 
-  loadCountries(){
-    this.countryService.getAll().subscribe(countries => {
-      if(countries){
+  loadUnit(){
+    this.poolingUnitService.getAll().subscribe(unit => {
+      if(unit){
         this.loading = false;
-        this.countries = countries.result;
+        this.unit = unit.result;
       }
     });
   }
 
   editItem(i){
-    this.formData = this.countries[i];
-    this.countryId = this.formData._id;
+    this.formData = this.unit[i];
     this.edit_mode = !this.edit_mode;
   }
   closeModal(){
     this.edit_mode = false;
   }
 
-  deleteCountry(id){
+  deleteUnit(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.countryService.delete(id).subscribe(data => this.loadCountries());
+      this.poolingUnitService.delete(id).subscribe(data => this.loadUnit());
     }
   }
 

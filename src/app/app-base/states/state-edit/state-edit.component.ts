@@ -64,9 +64,9 @@ export class StateEditComponent implements OnInit {
     this.countryService.getById(this.formData.country_id).subscribe(data => {
       this.stateForm.controls.country.value(data.result.countryname, {});
     });
-    this.stateService.getById(this.id).subscribe(data => {
-      this.stateForm.controls.state.setValue (data.result.statename, {});
-    });
+    // this.stateService.getById(this.id).subscribe(data => {
+    //   this.stateForm.controls.state.setValue (data.result.statename, {});
+    // });
 
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || './countries';

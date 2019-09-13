@@ -17,9 +17,12 @@ import { StateEditComponent } from './states/state-edit/state-edit.component';
 import { LgaListComponent } from './lga/lga-list/lga-list.component';
 import { LgaEditComponent } from './lga/lga-edit/lga-edit.component';
 import { LgaFormComponent } from './lga/lga-form/lga-form.component';
+import { PoolingUnitListComponent } from './pooling-unit/pooling-unit-list/pooling-unit-list.component';
+import { PoolingUnitFormComponent } from './pooling-unit/pooling-unit-form/pooling-unit-form.component';
+import { PoolingUnitEditComponent } from './pooling-unit/pooling-unit-edit/pooling-unit-edit.component';
 
 @NgModule({
-  declarations: [AppBaseComponent, MainMenuComponent, TopBarComponent, CountriesFormComponent, CountriesListComponent, UsersFormComponent, UsersListComponent, StatesFormComponent, StatesListComponent, CountryEditComponent, StateEditComponent, LgaListComponent, LgaEditComponent, LgaFormComponent],
+  declarations: [AppBaseComponent, MainMenuComponent, TopBarComponent, CountriesFormComponent, CountriesListComponent, UsersFormComponent, UsersListComponent, StatesFormComponent, StatesListComponent, CountryEditComponent, StateEditComponent, LgaListComponent, LgaEditComponent, LgaFormComponent, PoolingUnitListComponent, PoolingUnitFormComponent, PoolingUnitEditComponent],
   imports: [
     CommonModule,
     AppBaseRoutingModule,

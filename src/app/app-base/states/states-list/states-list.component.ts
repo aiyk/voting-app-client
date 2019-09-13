@@ -53,7 +53,7 @@ export class StatesListComponent implements OnInit {
   }
 
   editItem(i){
-    this.formData = this.countries[i];
+    this.formData = this.states[i];
     this.edit_mode = !this.edit_mode;
   }
   closeModal(){

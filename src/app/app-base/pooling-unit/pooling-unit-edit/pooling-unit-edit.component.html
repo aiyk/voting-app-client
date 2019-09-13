@@ -1,7 +1,7 @@
 
-<form class="modal" [formGroup]="lgaForm" (ngSubmit)="onSubmit()">
+<form class="modal" [formGroup]="unitForm" (ngSubmit)="onSubmit()">
   <div class="modal__header">
-    <div class="modal__title">Edit LGA</div>
+    <div class="modal__title">Edit Pooling Unit</div>
     <div (click)="onClose()" class="modal__closeBtn">X</div>
   </div>
   <div class="modal__body">
@@ -19,7 +19,13 @@
     </div>
     <div class="formItem">
       <label for="lga">LGA</label>
-      <input type="text" formControlName="lga">
+      <select formControlName="lga">
+        <option *ngFor="let lga of lgas" value="{{lga._id}}">{{lga.lganame}}</option>
+      </select>
+    </div>
+    <div class="formItem">
+      <label for="unit">Pooling Unit</label>
+      <input type="text" formControlName="unit">
     </div>
     <div class="auth__actions">
       <button [disabled]="loading" class="btn btn-blue" type="submit">

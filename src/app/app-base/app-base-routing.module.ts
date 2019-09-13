@@ -15,6 +15,8 @@ import { LgaEditComponent } from './lga/lga-edit/lga-edit.component';
 import { LgaListComponent } from './lga/lga-list/lga-list.component';
 import { UsersFormComponent } from './users/users-form/users-form.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
+import { PoolingUnitFormComponent } from './pooling-unit/pooling-unit-form/pooling-unit-form.component';
+import { PoolingUnitListComponent } from './pooling-unit/pooling-unit-list/pooling-unit-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'evote', pathMatch: 'full' },
@@ -25,17 +27,16 @@ const routes: Routes = [
       { path: '', redirectTo: 'countries', pathMatch: 'full' },
       { path: 'countries',  component: CountriesListComponent },
       { path: 'countries-update',  component: CountriesFormComponent },
-      // { path: 'countries-update/:id',  component: CountryEditComponent },
       { path: 'states',  component: StatesListComponent },
       { path: 'states-update',  component: StatesFormComponent },
-      // { path: 'states-update/:id',  component: StateEditComponent },
       { path: 'users',  component: UsersListComponent, canActivate: [AuthGuard] },
       { path: 'users-update',  component: UsersFormComponent },
-      // { path: 'users-update/:id',  component: UsersFormComponent },
       { path: 'lga',  component: LgaListComponent, canActivate: [AuthGuard] },
       { path: 'lga-update',  component: LgaFormComponent },
+      { path: 'unit',  component: PoolingUnitListComponent, canActivate: [AuthGuard] },
+      { path: 'unit-update',  component: PoolingUnitFormComponent },
       // { path: 'lga-update/:id',  component: LgaEditComponent },
-      
+
       // { path: 'application-form',
       //   component: ApplicationFormComponent,
       //   children: [

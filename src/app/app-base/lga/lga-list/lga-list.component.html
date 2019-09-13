@@ -25,5 +25,5 @@
 </div>
 
 <div *ngIf="edit_mode" class="modal__overlay">
-  <app-lga-edit [formData]="formData" (closeModal)="closeModal()"></app-lga-edit>
+  <app-lga-edit [formData]="formData" (closeModal)="closeModal()" [lgaId]="lgaId"></app-lga-edit> 
 </div>

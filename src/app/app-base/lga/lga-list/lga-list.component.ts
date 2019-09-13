@@ -23,6 +23,7 @@ export class LgaListComponent implements OnInit {
   loading = false;
   lga: Lga[];
   formData: any;
+  lgaId: string;
 
   pgData = {
     title: 'List of lga',
@@ -54,6 +55,7 @@ export class LgaListComponent implements OnInit {
 
   editItem(i){
     this.formData = this.lga[i];
+    this.lgaId = this.formData._id;
     this.edit_mode = !this.edit_mode;
   }
   closeModal(){

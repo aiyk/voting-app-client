@@ -26,8 +26,7 @@ export class CountryEditComponent implements OnInit {
 
   @Output() closeModal = new EventEmitter();
   @Input() formData: any;
-
-  id: string;
+  @Input() countryId: string;
   country: any = {};
 
   pgData = {
@@ -47,7 +46,7 @@ export class CountryEditComponent implements OnInit {
 
   clickItemIndex: number;
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+    // this.id = this.route.snapshot.params['id'];
     this.loading = false;
 
     this.countryForm = this.formBuilder.group({
@@ -56,9 +55,9 @@ export class CountryEditComponent implements OnInit {
 
     this.pageData.changePageData(this.pgData);
 
-    this.countryService.getById(this.id).subscribe(data => {
-      this.countryForm.controls.country.value(data.result.countryname, {});
-    });
+    // this.countryService.getById(this.id).subscribe(data => {
+    //   this.countryForm.controls.country.value(data.result.countryname, {});
+    // });
 
     // get return url from route parameters or default to '/'
     // this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || './countries';
@@ -87,8 +86,8 @@ export class CountryEditComponent implements OnInit {
         countryname: this.f.country.value
       };
 
-      this.countryService.update(this.id, this.country)
-      .subscribe((data: {}) => { console.log(this.returnUrl);
+      this.countryService.update(this.countryId, this.country)
+      .subscribe((data: {}) => { 
           this.router.navigate([this.returnUrl]);
         },
         error => {
