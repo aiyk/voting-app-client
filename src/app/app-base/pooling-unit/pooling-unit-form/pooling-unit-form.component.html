@@ -1,3 +1,31 @@
-<p>
-  pooling-unit-form works!
-</p>
+
+<form [formGroup]="unitForm" (ngSubmit)="onSubmit()">
+  <div class="formItem">
+    <label for="country">Country</label>
+    <select formControlName="country">
+      <option *ngFor="let country of countries" value="{{country._id}}">{{country.countryname}}</option>
+    </select>
+  </div>
+  <div class="formItem">
+    <label for="state">State</label>
+    <select formControlName="state">
+      <option *ngFor="let state of states" value="{{state._id}}">{{state.statename}}</option>
+    </select>
+  </div>
+  <div class="formItem">
+    <label for="lga">LGA</label>
+    <select formControlName="lga">
+      <option *ngFor="let lga of lgas" value="{{lga._id}}">{{lga.lganame}}</option>
+    </select>
+  </div>
+  <div class="formItem">
+    <label for="unit">Unit</label>
+    <input type="text" formControlName="unit">
+  </div>
+  <div class="auth__actions">
+    <button [disabled]="loading" class="btn btn-blue" type="submit">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Save
+    </button>
+  </div>
+</form>

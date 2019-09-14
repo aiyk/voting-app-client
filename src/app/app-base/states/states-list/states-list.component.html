@@ -26,5 +26,5 @@
 
 
 <div *ngIf="edit_mode" class="modal__overlay">
-  <app-state-edit [formData]="formData" (closeModal)="closeModal()"></app-state-edit>
+  <app-state-edit [formData]="formData" (closeModal)="closeModal()" [stateId]="stateId"></app-state-edit>
 </div>

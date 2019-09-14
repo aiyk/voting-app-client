@@ -29,6 +29,7 @@ export class StateEditComponent implements OnInit {
 
   @Output() closeModal = new EventEmitter();
   @Input() formData: any;
+  @Input() stateId: string;
 
   id: string;
   state: any = {};
@@ -51,7 +52,7 @@ export class StateEditComponent implements OnInit {
 
   clickItemIndex: number;
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
+    // this.id = this.route.snapshot.params['id'];
     this.loading = false;
 
     this.loadCountries();
@@ -61,9 +62,9 @@ export class StateEditComponent implements OnInit {
     });
 
     this.pageData.changePageData(this.pgData);
-    this.countryService.getById(this.formData.country_id).subscribe(data => {
-      this.stateForm.controls.country.value(data.result.countryname, {});
-    });
+    // this.countryService.getById(this.formData.country_id).subscribe(data => {
+    //   this.stateForm.controls.country.value(data.result.countryname, {});
+    // });
     // this.stateService.getById(this.id).subscribe(data => {
     //   this.stateForm.controls.state.setValue (data.result.statename, {});
     // });
@@ -105,7 +106,7 @@ export class StateEditComponent implements OnInit {
         statename: this.f.state.value
       };
 
-      this.stateService.update(this.id, this.state)
+      this.stateService.update(this.stateId, this.state)
       .subscribe((data: {}) => {
           this.router.navigate([this.returnUrl]);
         },

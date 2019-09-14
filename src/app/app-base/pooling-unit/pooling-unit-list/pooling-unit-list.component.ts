@@ -23,6 +23,7 @@ export class PoolingUnitListComponent implements OnInit {
   loading = false;
   unit: PoolingUnit[];
   formData: any;
+  unitId: string;
 
   pgData = {
     title: 'List of Pooling Units',
@@ -54,6 +55,7 @@ export class PoolingUnitListComponent implements OnInit {
 
   editItem(i){
     this.formData = this.unit[i];
+    this.unitId = this.formData._id;
     this.edit_mode = !this.edit_mode;
   }
   closeModal(){

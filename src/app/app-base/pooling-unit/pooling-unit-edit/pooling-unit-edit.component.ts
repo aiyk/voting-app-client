@@ -35,8 +35,8 @@ export class PoolingUnitEditComponent implements OnInit {
 
   @Output() closeModal = new EventEmitter();
   @Input() formData: any;
+  @Input() unitId: string;
 
-  id: string;
   unit: any = {};
 
   pgData = {
@@ -59,7 +59,6 @@ export class PoolingUnitEditComponent implements OnInit {
 
   clickItemIndex: number;
   ngOnInit() {
-    this.id = this.route.snapshot.params['id'];
     this.loading = false;
 
     this.loadCountries();
@@ -145,7 +144,7 @@ export class PoolingUnitEditComponent implements OnInit {
         unitname: this.f.unit.value
       };
 
-      this.poolingUnitService.update(this.id, this.unit)
+      this.poolingUnitService.update(this.unitId, this.unit)
       .subscribe((data: {}) => {
           this.router.navigate([this.returnUrl]);
         },

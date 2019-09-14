@@ -59,7 +59,7 @@ export class LgaListComponent implements OnInit {
     this.edit_mode = !this.edit_mode;
   }
   closeModal(){
-    this.edit_mode = false;
+    this.edit_mode = false; 
   }
 
   deleteLga(id){

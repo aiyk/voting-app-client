@@ -23,6 +23,7 @@ export class StatesListComponent implements OnInit {
   loading = false;
   states: State[];
   formData: any;
+  stateId: string;
 
   pgData = {
     title: 'List of states',
@@ -54,6 +55,7 @@ export class StatesListComponent implements OnInit {
 
   editItem(i){
     this.formData = this.states[i];
+    this.stateId = this.formData._id;
     this.edit_mode = !this.edit_mode;
   }
   closeModal(){

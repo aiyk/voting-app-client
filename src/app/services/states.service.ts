@@ -29,7 +29,7 @@ export class StatesService {
     return this.http.post<State>(this.apiUrl + '/create', JSON.stringify(state));
   }
 
-  update(id, state): Observable<State> {
+  update(id, state): Observable<State> { console.log(id, state);
     return this.http.put<State>(this.apiUrl + '/update/' + id, JSON.stringify(state));
   }
   delete(id): Observable<State> {

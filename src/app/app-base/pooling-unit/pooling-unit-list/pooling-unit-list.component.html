@@ -24,6 +24,6 @@
   </div>
 </div>
 
-<div *ngIf="edit_mode" class="modal__overlay">
-  <app-pooling-unit-edit [formData]="formData" (closeModal)="closeModal()"></app-pooling-unit-edit> 
+<div *ngIf="edit_mode" class="modal__overlay"> 
+  <app-pooling-unit-edit [formData]="formData" (closeModal)="closeModal()" [unitId]="unitId"></app-pooling-unit-edit>
 </div>

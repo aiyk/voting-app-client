@@ -1,10 +1,9 @@
 <div class="mainMenu__list">
-  <div class="mainMenu__item">Voting portal</div>
+  <div [routerLink]="['vote']" class="mainMenu__item">Voting portal</div>
   <div [routerLink]="['users']" class="mainMenu__item" routerLinkActive="mainMenu__item--active">Users manager</div>
   <div [routerLink]="['countries']" class="mainMenu__item" routerLinkActive="mainMenu__item--active">Countries managers</div>
   <div [routerLink]="['states']" class="mainMenu__item" routerLinkActive="mainMenu__item--active">States managers</div>
   <div [routerLink]="['lga']" class="mainMenu__item" routerLinkActive="mainMenu__item--active">LGAs manager</div>
   <div [routerLink]="['unit']" class="mainMenu__item" routerLinkActive="mainMenu__item--active">Pooling units</div>
-  <div class="mainMenu__item" routerLinkActive="mainMenu__item--active">Election manager</div>
-  <div class="mainMenu__item" routerLinkActive="mainMenu__item--active">Users manager</div>
+  <div [routerLink]="['elections']" class="mainMenu__item" routerLinkActive="mainMenu__item--active">Election manager</div>
 </div>
