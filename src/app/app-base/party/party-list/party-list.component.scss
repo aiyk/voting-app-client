@@ -1,0 +1,17 @@
+.candidate__wrap{
+  border-bottom: .1rem solid #aaa;
+}
+.candidate {
+  font-size: 2rem;
+  display: block;
+  color: var(--text-primary);
+}
+.running__for{
+  font-size: 1.4rem;
+  display: block;
+  color: var(--red);
+  margin-bottom: 1rem;
+}
+.td{
+  align-items: flex-start;
+}

@@ -20,9 +20,22 @@ import { LgaFormComponent } from './lga/lga-form/lga-form.component';
 import { PoolingUnitListComponent } from './pooling-unit/pooling-unit-list/pooling-unit-list.component';
 import { PoolingUnitFormComponent } from './pooling-unit/pooling-unit-form/pooling-unit-form.component';
 import { PoolingUnitEditComponent } from './pooling-unit/pooling-unit-edit/pooling-unit-edit.component';
+import { ElectionListComponent } from './elections/election-list/election-list.component';
+import { ElectionFormComponent } from './elections/election-form/election-form.component';
+import { ElectionEditComponent } from './elections/election-edit/election-edit.component';
+import { PartyListComponent } from './party/party-list/party-list.component';
+import { PartyFormComponent } from './party/party-form/party-form.component';
+import { PartyEditComponent } from './party/party-edit/party-edit.component';
+import { PartyCandidatesComponent } from './party/party-candidates/party-candidates.component';
+import { VoterListComponent } from './user/voter-list/voter-list.component';
+import { VoterEditComponent } from './user/voter-edit/voter-edit.component';
+import { VoterFormComponent } from './user/voter-form/voter-form.component';
+import { OfficialListComponent } from './user/official-list/official-list.component';
+import { OfficialEditComponent } from './user/official-edit/official-edit.component';
+import { OfficialFormComponent } from './user/official-form/official-form.component';
 
 @NgModule({
-  declarations: [AppBaseComponent, MainMenuComponent, TopBarComponent, CountriesFormComponent, CountriesListComponent, UsersFormComponent, UsersListComponent, StatesFormComponent, StatesListComponent, CountryEditComponent, StateEditComponent, LgaListComponent, LgaEditComponent, LgaFormComponent, PoolingUnitListComponent, PoolingUnitFormComponent, PoolingUnitEditComponent],
+  declarations: [AppBaseComponent, MainMenuComponent, TopBarComponent, CountriesFormComponent, CountriesListComponent, UsersFormComponent, UsersListComponent, StatesFormComponent, StatesListComponent, CountryEditComponent, StateEditComponent, LgaListComponent, LgaEditComponent, LgaFormComponent, PoolingUnitListComponent, PoolingUnitFormComponent, PoolingUnitEditComponent, ElectionListComponent, ElectionFormComponent, ElectionEditComponent, PartyListComponent, PartyFormComponent, PartyEditComponent, PartyCandidatesComponent, VoterListComponent, VoterEditComponent, VoterFormComponent, OfficialListComponent, OfficialEditComponent, OfficialFormComponent],
   imports: [
     CommonModule,
     AppBaseRoutingModule,

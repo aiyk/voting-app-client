@@ -17,6 +17,10 @@ import { UsersFormComponent } from './users/users-form/users-form.component';
 import { UsersListComponent } from './users/users-list/users-list.component';
 import { PoolingUnitFormComponent } from './pooling-unit/pooling-unit-form/pooling-unit-form.component';
 import { PoolingUnitListComponent } from './pooling-unit/pooling-unit-list/pooling-unit-list.component';
+import { ElectionFormComponent } from './elections/election-form/election-form.component';
+import { ElectionListComponent } from './elections/election-list/election-list.component';
+import { PartyFormComponent } from './party/party-form/party-form.component';
+import { PartyListComponent } from './party/party-list/party-list.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'evote', pathMatch: 'full' },
@@ -35,6 +39,10 @@ const routes: Routes = [
       { path: 'lga-update',  component: LgaFormComponent },
       { path: 'unit',  component: PoolingUnitListComponent, canActivate: [AuthGuard] },
       { path: 'unit-update',  component: PoolingUnitFormComponent },
+      { path: 'elections',  component: ElectionListComponent, canActivate: [AuthGuard] },
+      { path: 'election-update',  component: ElectionFormComponent },
+      { path: 'party',  component: PartyListComponent, canActivate: [AuthGuard] },
+      { path: 'party-update',  component: PartyFormComponent },
       // { path: 'lga-update/:id',  component: LgaEditComponent },
 
       // { path: 'application-form',
