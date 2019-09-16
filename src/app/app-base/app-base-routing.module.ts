@@ -21,6 +21,10 @@ import { ElectionFormComponent } from './elections/election-form/election-form.c
 import { ElectionListComponent } from './elections/election-list/election-list.component';
 import { PartyFormComponent } from './party/party-form/party-form.component';
 import { PartyListComponent } from './party/party-list/party-list.component';
+import { VoterListComponent } from './user/voter-list/voter-list.component';
+import { VoterFormComponent } from './user/voter-form/voter-form.component';
+import { OfficialListComponent } from './user/official-list/official-list.component';
+import { OfficialFormComponent } from './user/official-form/official-form.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'evote', pathMatch: 'full' },
@@ -43,6 +47,10 @@ const routes: Routes = [
       { path: 'election-update',  component: ElectionFormComponent },
       { path: 'party',  component: PartyListComponent, canActivate: [AuthGuard] },
       { path: 'party-update',  component: PartyFormComponent },
+      { path: 'voter',  component: VoterListComponent, canActivate: [AuthGuard] },
+      { path: 'voter-update',  component: VoterFormComponent },
+      { path: 'official',  component: OfficialListComponent, canActivate: [AuthGuard] },
+      { path: 'official-update',  component: OfficialFormComponent },
       // { path: 'lga-update/:id',  component: LgaEditComponent },
 
       // { path: 'application-form',
