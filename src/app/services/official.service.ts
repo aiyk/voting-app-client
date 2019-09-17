@@ -25,12 +25,12 @@ export class OfficialService {
     return this.http.get<Official>(`${this.apiUrl}/retrieve/` + id);
 }
 
-  create(election): Observable<Official> {
-    return this.http.post<Official>(this.apiUrl + '/create', JSON.stringify(election));
+  create(official): Observable<Official> {
+    return this.http.post<Official>(this.apiUrl + '/create', JSON.stringify(official));
   }
 
-  update(id, election): Observable<Official> {
-    return this.http.put<Official>(this.apiUrl + '/update/' + id, JSON.stringify(election));
+  update(id, official): Observable<Official> {
+    return this.http.put<Official>(this.apiUrl + '/update/' + id, JSON.stringify(official));
   }
   delete(id): Observable<Official> {
     return this.http.delete<Official>(this.apiUrl + '/delete/' + id);

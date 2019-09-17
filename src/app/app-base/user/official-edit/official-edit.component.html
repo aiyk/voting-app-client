@@ -1,3 +1,41 @@
-<p>
-  official-edit works!
-</p>
+
+<form class="modal" [formGroup]="officialForm" (ngSubmit)="onSubmit()">
+  <div class="modal__header">
+    <div class="modal__title">Edit Official</div>
+    <div (click)="onClose()" class="modal__closeBtn">X</div>
+  </div>
+  <div class="modal__body">
+    <div class="formItem">
+      <label for="firstname">First name</label>
+      <input type="text" formControlName="firstname">
+    </div>
+    <div class="formItem">
+      <label for="lastname">Last name</label>
+      <input type="text" formControlName="lastname">
+    </div>
+    <div class="formItem">
+      <label for="othernames">Other names</label>
+      <input type="text" formControlName="othernames">
+    </div>
+    <div class="formItem">
+      <label for="email">Email Address</label>
+      <input type="email" formControlName="email">
+    </div>
+    <div class="formItem">
+      <label for="phone">Phone number</label>
+      <input type="text" formControlName="phone">
+    </div>
+    <div class="formItem">
+      <label for="poolingunit">Pooling Unit</label>
+      <select formControlName="poolingunit">
+        <option *ngFor="let poolingunit of units" value="{{poolingunit._id}}">{{poolingunit.unitname}}</option>
+      </select>
+    </div>
+    <div class="auth__actions">
+      <button [disabled]="loading" class="btn btn-blue" type="submit">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+        Save
+      </button>
+    </div>
+  </div>
+</form>

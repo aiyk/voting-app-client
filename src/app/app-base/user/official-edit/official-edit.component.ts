@@ -19,8 +19,8 @@ import { ActivePageService} from '../../../services/active-page.service';
 export class OfficialEditComponent implements OnInit {
 
   loading = false;
-  units: PoolingUnit[];
   officials: Official[];
+  units: PoolingUnit[];
   officialForm: FormGroup;
   submitted = false;
   returnUrl: string;
@@ -31,7 +31,7 @@ export class OfficialEditComponent implements OnInit {
   @Input() formData: any;
   @Input() officialId: string;
 
-  unit: any = {};
+  official: any = {};
 
   pgData = {
     title: 'Edit Official',
@@ -81,7 +81,7 @@ export class OfficialEditComponent implements OnInit {
     this.poolingUnitService.getAll().subscribe(unit => {
       if(unit){
         this.loading = false;
-        this.unit = unit.result;
+        this.units = unit.result;
       }
     });
   }
@@ -97,16 +97,16 @@ export class OfficialEditComponent implements OnInit {
 
       this.loading = true;
 
-      this.officials = {
+      this.official = {
         firstname: this.f.firstname.value,
         lastname: this.f.lastname.value,
         othernames: this.f.othernames.value,
         email: this.f.email.value,
         phone: this.f.phone.value,
-        poolingunit: this.f.poolingunit.value
+        poolingUnit_id: this.f.poolingunit.value
       };
 
-      this.officialService.update(this.officialId, this.officials)
+      this.officialService.update(this.officialId, this.official)
       .subscribe((data: {}) => {
           this.router.navigate([this.returnUrl]);
         },

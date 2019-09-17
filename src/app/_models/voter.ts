@@ -1,6 +1,4 @@
 export class Voter {
-  _id: string;
-  user_id: string;
   firstname: string;
   lastname: string;
   othernames: String;
@@ -13,5 +11,4 @@ export class Voter {
   gender: string;
   occupation: string;
   dateOfBirth: string;
-  created: string;
 }

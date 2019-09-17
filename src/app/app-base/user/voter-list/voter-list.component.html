@@ -1,3 +1,45 @@
-<p>
-  voter-list works!
-</p>
+<div class="table">
+    <div class="thead">
+      <div class="tr">
+        <div class="th">Voter</div>
+        <!-- <div class="th">Email</div> -->
+        <!-- <div class="th">Country</div> -->
+        <div class="th">State</div>
+        <div class="th">LGA</div>
+        <div class="th">Pooling unit</div>
+        <div class="th">Address</div>
+        <div class="th">Gender</div>
+        <!-- <div class="th">Occupation</div> -->
+        <div class="th">Date of birth</div>
+        <div class="th"></div>
+      </div>
+    </div>
+
+    <div class="tbody">
+      <div *ngFor="let voter of voter; let i = index" class="tr">
+        <div class="td">{{voter.firstname}} {{voter.othernames}} {{voter.lastname}}</div>
+        <!-- <div class="td">{{voter.email}}</div> -->
+        <!-- <div class="td">{{voter.country}}</div> -->
+        <div class="td">{{voter.state}}</div>
+        <div class="td">{{voter.lga}}</div>
+        <div class="td">{{voter.poolingunit}}</div>
+        <div class="td">{{voter.address}}</div>
+        <div class="td">{{voter.gender}}</div>
+        <!-- <div class="td">{{voter.occupation}}</div> -->
+        <div class="td">{{voter.dateOfBirth}}</div>
+        <div class="td td-actions dropdown-wrap">
+          <button (click)="tblmenuitem_onclick(i)" class="btn-hollow btn-elipsis-v-center btn-x0"></button>
+          <div class="dropdown-wrap">
+            <ul (click)="tblmenuitem_onclick('')" *ngIf="item_to_show(i)" class="dropdown-menu">
+              <li (click)="editItem(i)" ><img src="assets/icon-set/edit.svg"> Edit </li>
+              <li (click)="deleteVoter(voter._id)"><img src="assets/icon-set/trash.svg"> Delete</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="edit_mode" class="modal__overlay">
+    <app-voter-edit [formData]="formData" (closeModal)="closeModal()" [voterId]="voterId"></app-voter-edit>
+  </div>

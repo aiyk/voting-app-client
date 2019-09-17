@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { Official } from '../../../_models/official';
+import { PoolingUnit } from '../../../_models/pooling-unit';
 
 import { AuthService } from '../../../services/auth.service';
 import { OfficialService} from '../../../services/official.service';
+import { PoolingUnitService} from '../../../services/pooling-unit.service';
 import { ActivePageService} from '../../../services/active-page.service';
 import { OfficialEditComponent } from '../official-edit/official-edit.component';
 
@@ -21,7 +23,7 @@ export class OfficialListComponent implements OnInit {
   edit_mode = false;
 
   loading = false;
-  official: Official[];
+  official: any = {};
   formData: any;
   officialId: string;
 
@@ -33,7 +35,7 @@ export class OfficialListComponent implements OnInit {
     }
   };
 
-  constructor(private officialService: OfficialService, private pageData: ActivePageService) { }
+  constructor(private officialService: OfficialService,  private poolingUnitService: PoolingUnitService, private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
@@ -49,9 +51,17 @@ export class OfficialListComponent implements OnInit {
       if(official){
         this.loading = false;
         this.official = official.result;
+
+        this.official.forEach(data => {
+          this.poolingUnitService.getById(data.poolingUnit_id).subscribe(unit => {
+            data.poolingunitname = unit.result.unitname;
+          })
+        });
       }
     });
   }
+
+
 
   editItem(i){
     this.formData = this.official[i];
