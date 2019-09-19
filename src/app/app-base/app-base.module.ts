@@ -33,9 +33,11 @@ import { VoterFormComponent } from './user/voter-form/voter-form.component';
 import { OfficialListComponent } from './user/official-list/official-list.component';
 import { OfficialEditComponent } from './user/official-edit/official-edit.component';
 import { OfficialFormComponent } from './user/official-form/official-form.component';
+import { VoteInitComponent } from './vote/vote-init/vote-init.component';
+import { VoteComponent } from './vote/vote/vote.component';
 
 @NgModule({
-  declarations: [AppBaseComponent, MainMenuComponent, TopBarComponent, CountriesFormComponent, CountriesListComponent, UsersFormComponent, UsersListComponent, StatesFormComponent, StatesListComponent, CountryEditComponent, StateEditComponent, LgaListComponent, LgaEditComponent, LgaFormComponent, PoolingUnitListComponent, PoolingUnitFormComponent, PoolingUnitEditComponent, ElectionListComponent, ElectionFormComponent, ElectionEditComponent, PartyListComponent, PartyFormComponent, PartyEditComponent, PartyCandidatesComponent, VoterListComponent, VoterEditComponent, VoterFormComponent, OfficialListComponent, OfficialEditComponent, OfficialFormComponent],
+  declarations: [AppBaseComponent, MainMenuComponent, TopBarComponent, CountriesFormComponent, CountriesListComponent, UsersFormComponent, UsersListComponent, StatesFormComponent, StatesListComponent, CountryEditComponent, StateEditComponent, LgaListComponent, LgaEditComponent, LgaFormComponent, PoolingUnitListComponent, PoolingUnitFormComponent, PoolingUnitEditComponent, ElectionListComponent, ElectionFormComponent, ElectionEditComponent, PartyListComponent, PartyFormComponent, PartyEditComponent, PartyCandidatesComponent, VoterListComponent, VoterEditComponent, VoterFormComponent, OfficialListComponent, OfficialEditComponent, OfficialFormComponent, VoteInitComponent, VoteComponent],
   imports: [
     CommonModule,
     AppBaseRoutingModule,

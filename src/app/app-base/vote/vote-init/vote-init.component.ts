@@ -7,10 +7,8 @@ import { Country } from '../../../_models/country';
 import { State } from '../../../_models/state';
 import { Lga } from '../../../_models/lga';
 import { PoolingUnit } from '../../../_models/pooling-unit';
-import { Voter } from '../../../_models/voter';
 
 import { AuthService } from '../../../services/auth.service';
-import { VoterService} from '../../../services/voter.service';
 import { CountryService} from '../../../services/country.service';
 import { StatesService} from '../../../services/states.service';
 import { LgaService} from '../../../services/lga.service';
@@ -18,36 +16,35 @@ import { PoolingUnitService} from '../../../services/pooling-unit.service';
 import { ActivePageService} from '../../../services/active-page.service';
 
 @Component({
-  selector: 'app-voter-form',
-  templateUrl: './voter-form.component.html',
-  styleUrls: ['./voter-form.component.scss']
+  selector: 'app-vote-init',
+  templateUrl: './vote-init.component.html',
+  styleUrls: ['./vote-init.component.scss']
 })
-export class VoterFormComponent implements OnInit {
+export class VoteInitComponent implements OnInit {
 
   loading = false;
-  voters: Voter[];
   countries: Country[];
   states: State[];
   lgas: Lga[];
   units: PoolingUnit[];
-  voterForm: FormGroup;
+  voteInitForm: FormGroup;
   submitted = false;
   returnUrl: string;
   error = '';
 
   id: string;
-  voter: any = {};
+  initData: any = {};
+  vote_mode = false;
 
   pgData = {
-    title: 'New Voter',
+    title: 'Initialize Election',
     button: {
-      title: 'List Voters',
-      route: 'voter'
+      title: 'Initialize',
+      route: 'vote'
     }
   };
 
   constructor(
-    private voterService: VoterService,
     private countryService: CountryService,
     private stateService: StatesService,
     private lgaService: LgaService,
@@ -66,19 +63,11 @@ export class VoterFormComponent implements OnInit {
     this.loadLgas();
     this.loadUnits();
 
-    this.voterForm = this.formBuilder.group({
-      firstname: ['', Validators.required],
-      lastname: ['', Validators.required],
-      othernames: [''],
-      email: ['', Validators.required],
+    this.voteInitForm = this.formBuilder.group({
       country: ['', Validators.required],
       state: ['', Validators.required],
       lga: ['', Validators.required],
-      poolingunit: ['', Validators.required],
-      address: ['', Validators.required],
-      occupation: ['', Validators.required],
-      gender: ['', Validators.required],
-      dateOfBirth: ['', Validators.required] 
+      poolingunit: ['', Validators.required]
     });
 
 
@@ -87,7 +76,7 @@ export class VoterFormComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get f() { return this.voterForm.controls; }
+  get f() { return this.voteInitForm.controls; }
 
   loadCountries(){
     this.countryService.getAll().subscribe(countries => {
@@ -122,39 +111,26 @@ export class VoterFormComponent implements OnInit {
     });
   }
 
+  closeModal(){
+    this.vote_mode = false;
+  }
+
   onSubmit() {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.voterForm.invalid) {
+    if (this.voteInitForm.invalid) {
         return;
     }
 
     this.loading = true;
 
-    let voter = {
-      firstname: this.f.firstname.value,
-      lastname: this.f.lastname.value,
-      othernames: this.f.othernames.value,
-      email: this.f.email.value,
+    this.initData = {
       country_id: this.f.country.value,
       state_id: this.f.state.value,
       lga_id: this.f.lga.value,
-      poolingUnit_id: this.f.poolingunit.value,
-      occupation: this.f.occupation.value,
-      address: this.f.address.value,
-      gender: this.f.gender.value,
-      dateOfBirth: this.f.dateOfBirth.value
+      poolingUnit_id: this.f.poolingunit.value
     };
-
-    this.voterService.create(voter)
-    .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
-      },
-      error => {
-          this.error = error;
-          this.loading = false;
-      });
   }
 
 }

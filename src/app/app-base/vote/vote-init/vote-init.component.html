@@ -1,0 +1,37 @@
+
+<form [formGroup]="voteInitForm" (ngSubmit)="onSubmit()">
+  <div class="formItem">
+    <label for="country">Country</label>
+    <select formControlName="country">
+      <option *ngFor="let country of countries" value="{{country._id}}">{{country.countryname}}</option>
+    </select>
+  </div>
+  <div class="formItem">
+    <label for="state">State</label>
+    <select formControlName="state">
+      <option *ngFor="let state of states" value="{{state._id}}">{{state.statename}}</option>
+    </select>
+  </div>
+  <div class="formItem">
+    <label for="lga">LGA</label>
+    <select formControlName="lga">
+      <option *ngFor="let lga of lgas" value="{{lga._id}}">{{lga.lganame}}</option>
+    </select>
+  </div>
+  <div class="formItem">
+    <label for="poolingunit">Pooling Unit</label>
+    <select formControlName="poolingunit">
+      <option *ngFor="let poolingunit of units" value="{{poolingunit._id}}">{{poolingunit.unitname}}</option>
+    </select>
+  </div>
+  <div class="auth__actions">
+    <button [disabled]="loading" class="btn btn-blue" type="submit">
+      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+      Save
+    </button>
+  </div>
+</form>
+
+<div *ngIf="vote_mode" class="modal__overlay">
+  <app-vote (closeModal)="closeModal()" [initData]="initData"></app-vote>
+</div>
