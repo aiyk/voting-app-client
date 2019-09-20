@@ -13,24 +13,26 @@
 
           <div class="voter__id">
             <div class="tabs">
-              <div class="tab">Finger Print</div>
-              <div class="tab">User Credentials</div>
+              <div (click)="onFingerprintTab()" class="tab" [class.tab--active]="fingerprintTab">Finger Print</div>
+              <div (click)="onUsercredTab()" class="tab" [class.tab--active]="credentialTab">User Credentials</div>
             </div>
             <div *ngIf="fingerprintTab" class="tab__content">
                 <form [formGroup]="voterIdForm" (ngSubmit)="onVote()">
+                  <input type="hidden" [ngModel]="party._id" formControlName="partyId">
+                  <input type="hidden" [ngModel]="candidate.election_id" formControlName="electionId">
                   <div class="formItem">
                     <label for="username">Username</label>
                     <input type="text" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" >
-                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                    <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
                       <div *ngIf="f.username.errors.required">Username is required</div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="formItem">
                     <label for="password">Password</label>
                     <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" >
-                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                    <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                       <div *ngIf="f.password.errors.required">Password is required</div>
-                    </div>
+                    </div> -->
                   </div>
                   <div class="auth__actions">
                     <button [disabled]="loading" class="btn btn-blue">
@@ -43,9 +45,9 @@
             </div>
             <div *ngIf="credentialTab" class="tab__content"></div>
           </div>
-          <button class="btn btn-blue" type="button">
+          <!-- <button class="btn btn-blue" type="button">
             Vote {{candidate.candidatename}}
-          </button>
+          </button> -->
         </div>
       </div>
     </div>

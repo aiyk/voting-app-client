@@ -10,7 +10,7 @@ import { User } from '../_models/user';
 })
 export class VoteService {
 
-  apiUrl: string = 'http://localhost:5000/api/vote';
+  apiUrl: string = 'http://localhost:5000/api/election';
   currentUser: User;
 
   constructor(private http: HttpClient, private authService: AuthService) {
@@ -25,6 +25,17 @@ export class VoteService {
   }
 
   voteWithId(vote): Observable<Election> {
-    return this.http.put<Election>(this.apiUrl + '/voteWithId', JSON.stringify(vote));
+    let voterChoice = {
+      username: vote.username,
+      password: vote.password,
+      election_id: vote.election_id,
+      vote: {
+        party: vote.party_id,
+        state: vote.state_id, // voters state(string)
+        lga: vote.lga_id, // voters lga (string)
+        poolingUnnit: vote.poolingUnit_id // voters pooling unit (string)
+      }
+    }
+    return this.http.put<Election>(this.apiUrl + '/voteWithId', JSON.stringify(voterChoice));
   }
 }

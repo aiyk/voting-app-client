@@ -64,7 +64,9 @@ export class VoteComponent implements OnInit {
 
     this.voterIdForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required]
+      password: ['', Validators.required],
+      partyId: ['', Validators.required],
+      electionId: ['', Validators.required]
     });
 
     this.pageData.changePageData(this.pgData);
@@ -73,6 +75,7 @@ export class VoteComponent implements OnInit {
   }
 
   get f() { return this.voterIdForm.controls; }
+
   loadElection(){
     this.electionService.getAll().subscribe(election => {
       if(election) {
@@ -94,11 +97,22 @@ export class VoteComponent implements OnInit {
   onClose() {
     this.closeModal.emit();
   }
+  onFingerprintTab(){
+    this.fingerprintTab = true;
+    this.credentialTab = false;
+  }
+  onUsercredTab(){
+    this.fingerprintTab = false;
+    this.credentialTab = true;
+  }
 
-  onVote(party) {
+  onVote() {
 
     this.vote = this.initData;
-    this.vote.party = party;
+    this.vote.party_id = this.f.partyId.value;
+    this.vote.election_id = this.f.electionId.value;
+    this.vote.username = this.f.username.value,
+    this.vote.password = this.f.password.value,
 
     this.voteService.voteWithId(this.vote)
     .subscribe((data: {}) => {
