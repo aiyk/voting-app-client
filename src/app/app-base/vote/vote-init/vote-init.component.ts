@@ -131,6 +131,8 @@ export class VoteInitComponent implements OnInit {
       lga_id: this.f.lga.value,
       poolingUnit_id: this.f.poolingunit.value
     };
+
+    this.vote_mode = true;
   }
 
 }

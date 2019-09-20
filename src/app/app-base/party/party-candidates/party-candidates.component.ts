@@ -58,7 +58,6 @@ export class PartyCandidatesComponent implements OnInit {
     this.loadElection();
     this.partyForm = this.formBuilder.group({
       election: ['', Validators.required],
-      electionname: ['', Validators.required],
       candidate: ['', Validators.required]
     });
 
@@ -87,25 +86,33 @@ export class PartyCandidatesComponent implements OnInit {
       this.submitted = true;
 
       // stop here if form is invalid
-      if (this.partyForm.invalid) {
+      if (this.partyForm.invalid) { console.log(this.partyForm);
           return;
       }
 
       this.loading = true;
+      let electionReturned: any;
 
-      this.candidate = {
-        election_id: this.f.election.value,
-        candidatename: this.f.candidate.value
-      };
+      this.electionService.getById(this.f.election.value).subscribe(election => {
+        if(election){
+          electionReturned = election.result;
+          this.candidate = {
+            election_id: this.f.election.value,
+            electionname: electionReturned.electionname,
+            candidatename: this.f.candidate.value
+          };
 
-      this.partyService.updateCandidate(this.partyId, this.candidate)
-      .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-            this.error = error;
-            this.loading = false;
-        });
+          this.partyService.updateCandidate(this.partyId, this.candidate)
+          .subscribe((data: {}) => {
+              this.router.navigate([this.returnUrl]);
+            },
+            error => {
+                this.error = error;
+                this.loading = false;
+            });
+        }
+      });
+
     }
   }
 

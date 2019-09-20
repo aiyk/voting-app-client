@@ -1,3 +1,53 @@
-<p>
-  vote works!
-</p>
+<div class="modal vote__modal">
+  <div class="modal__header">
+    <div class="modal__title">E - Voting Portal</div>
+    <div (click)="onClose()" class="modal__closeBtn">X</div>
+  </div>
+  <div class="modal__body">
+    <div class="party" *ngFor="let party of parties">
+      <div class="party__name">{{party.partyname}}</div>
+      <div class="party__candidates">
+        <div class="party__candidate" *ngFor="let candidate of party.candidates">
+          <div class="election__name">{{candidate.electionname}}</div>
+          <div class="election__candidate">{{candidate.candidatename}}</div>
+
+          <div class="voter__id">
+            <div class="tabs">
+              <div class="tab">Finger Print</div>
+              <div class="tab">User Credentials</div>
+            </div>
+            <div *ngIf="fingerprintTab" class="tab__content">
+                <form [formGroup]="voterIdForm" (ngSubmit)="onVote()">
+                  <div class="formItem">
+                    <label for="username">Username</label>
+                    <input type="text" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" >
+                    <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+                      <div *ngIf="f.username.errors.required">Username is required</div>
+                    </div>
+                  </div>
+                  <div class="formItem">
+                    <label for="password">Password</label>
+                    <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" >
+                    <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                      <div *ngIf="f.password.errors.required">Password is required</div>
+                    </div>
+                  </div>
+                  <div class="auth__actions">
+                    <button [disabled]="loading" class="btn btn-blue">
+                      <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                      Vote {{candidate.candidatename}}
+                    </button>
+                    <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+                  </div>
+                </form>
+            </div>
+            <div *ngIf="credentialTab" class="tab__content"></div>
+          </div>
+          <button class="btn btn-blue" type="button">
+            Vote {{candidate.candidatename}}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

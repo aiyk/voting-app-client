@@ -1,0 +1,39 @@
+.vote__modal{
+  width: 100vw;
+  height: 100vh;
+}
+.party {
+  width: 100%;
+  margin-bottom: 5rem;
+  background: #f8f8f8;
+}
+.party__name{
+  padding-bottom: 1rem;
+  font-size: 2rem;
+  color: #777;
+}
+.party__candidates{
+  display: flex;
+  padding: 1rem;
+}
+.party__candidate{
+  border: .1rem solid #aaa;
+  border-radius: .7rem;
+  padding: 2rem;
+  margin-right: 2rem;
+  line-height: 1.2;
+  background: #fff;
+  .btn{
+    color: #fff;
+    margin-top: 2rem;
+    width: 100%;
+  }
+}
+.election__name{
+  color: #ff2500;
+  font-size: 1.6rem;
+}
+.election__candidate{
+  font-size: 2rem;
+  color: #777;
+}
