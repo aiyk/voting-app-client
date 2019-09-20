@@ -4,7 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Party } from '../../../_models/party';
-import { Election } from '../../../_models/election';
+import { Election } from '../../../_models/election'; 
 
 import { AuthService } from '../../../services/auth.service';
 import { VoteService} from '../../../services/vote.service';
