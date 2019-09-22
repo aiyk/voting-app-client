@@ -1,3 +1,12 @@
-<p>
-  vote-results works!
-</p>
+<div class="election" *ngFor="let election of elections">
+  <div class="election__name">{{election.electionname}}</div>
+
+  <div class="votes" >
+    <ng-template ngFor let-result [ngForOf]="compiledResult" >
+      <div class="votes__innerWrap" *ngIf="election.electionname == result[2]">
+        <div  class="vote__party">{{result[0]}}</div>
+        <div class="vote__score">{{result[1]}}</div>
+      </div>
+    </ng-template>
+  </div>
+</div>
