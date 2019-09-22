@@ -26,7 +26,7 @@ export class VoterFormComponent implements OnInit {
 
   loading = false;
   voters: Voter[];
-  countries: Country[];
+  countries: Country[];  
   states: State[];
   lgas: Lga[];
   units: PoolingUnit[];
@@ -83,11 +83,23 @@ export class VoterFormComponent implements OnInit {
 
 
     this.pageData.changePageData(this.pgData);
+    this.voterService.connect();
     this.returnUrl = '/';
+    this.voterService.biometricListener.subscribe(val => {
+      
+    });
+  }
+
+  ngOnDestroy(){
+    this.voterService.disconnect();
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.voterForm.controls; }
+
+  capturePrints(){
+    this.voterService.sendCommand("capture");
+  }
 
   loadCountries(){
     this.countryService.getAll().subscribe(countries => {
