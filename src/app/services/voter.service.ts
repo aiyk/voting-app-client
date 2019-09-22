@@ -20,7 +20,7 @@ export class VoterService {
   stompClient = null;
   socket: any;
   currentPrint: string;
-  currentResult: string; 
+  currentResult: string;
   biometricData: string;
 
   biometricListener = new Subject<string>();
@@ -29,26 +29,26 @@ export class VoterService {
     this.socket = new SockJS('http://localhost:8080/gs-biometrics');
     this.stompClient = Stomp.over(this.socket);
     this.authService.currentUser.subscribe(x => { this.currentUser = x; });
-    console.log('current user => ', this.currentUser);
   }
- 
+
   // FINGER PRINT METHODS
-  
+
 getFingerprint(): string {
   return this.currentPrint;
-} 
+}
 
 connect() {
     var self = this;
     self.stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
         console.log(self.socket._transport.url);
-        self.stompClient.subscribe('/topic/biometrics', function (data) { 
+        self.stompClient.subscribe('/topic/biometrics', function (data) {
           //.parseData(data);
-          // console.log(data); 
-          self.biometricData = data;
+          // console.log(data);
+          data = JSON.parse(data);
+          self.biometricData = data.data;
           self.biometricListener.next();
-          // console.log(self.biometricData); 
+          // console.log(self.biometricData);
         });
     });
 }
@@ -67,7 +67,7 @@ sendCommand(command, data=null) {
         data: data
     };
     this.stompClient.send("/app/scan", {}, JSON.stringify(action));
-    
+
     // stompClient.send("/app/scan", {}, JSON.stringify({'name': $("#name").val()}));
 }
 
@@ -86,7 +86,7 @@ private parseData(data): void {
 
   create(voter): Observable<Voter> {
     if(this.biometricData){
-      voter.fingerprint = this.biometricData; 
+      voter.fingerprint = this.biometricData;
       return this.http.post<Voter>(this.apiUrl + '/create', JSON.stringify(voter));
     } else {
       return this.http.post<Voter>(this.apiUrl + '/create', JSON.stringify(voter));

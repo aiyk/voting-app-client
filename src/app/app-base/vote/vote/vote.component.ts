@@ -25,9 +25,6 @@ export class VoteComponent implements OnInit {
   parties: Party[];
   submitted = false;
 
-  fingerprintTab = true;
-  credentialTab = false;
-
   @Output() closeModal = new EventEmitter();
   @Input() initData: string; // country, state, lga, pooling unit
 
@@ -73,17 +70,7 @@ export class VoteComponent implements OnInit {
     });
   }
   onClose() {
-    this.fingerprintTab = false;
-    this.credentialTab = false;
     this.closeModal.emit();
-  }
-  onFingerprintTab(){
-    this.fingerprintTab = true;
-    this.credentialTab = false;
-  }
-  onUsercredTab(){
-    this.fingerprintTab = false;
-    this.credentialTab = true;
   }
 
 }

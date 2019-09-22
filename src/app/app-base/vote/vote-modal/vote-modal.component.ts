@@ -20,6 +20,8 @@ export class VoteModalComponent implements OnInit {
   vote: any = {};
   loading = false;
   error = '';
+  fingerprintTab = true;
+  credentialTab = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -40,6 +42,8 @@ export class VoteModalComponent implements OnInit {
 
   onClose() {
     this.closeModal.emit();
+    this.credentialTab = false;
+    this.fingerprintTab = false;
   }
   getVoter(voter_id){
     this.voterService.getById(voter_id).subscribe(voter => {
@@ -49,11 +53,19 @@ export class VoteModalComponent implements OnInit {
       }
     });
   }
+  onFingerprintTab(){
+    this.fingerprintTab = true;
+    this.credentialTab = false;
+  }
+  onUsercredTab(){
+    this.fingerprintTab = false;
+    this.credentialTab = true;
+  }
 
   onVote() {
 
     // this.vote = this.initData;
-    this.vote.party_id = this.candidate.election_id;
+    this.vote.party_id = this.party._id;
     this.vote.state_id = this.initData.state_id;
     this.vote.lga_id = this.initData.lga_id;
     this.vote.poolingUnit_id = this.initData.poolingUnit_id;
@@ -61,13 +73,13 @@ export class VoteModalComponent implements OnInit {
     this.vote.username = this.f.username.value,
     this.vote.password = this.f.password.value,
 
-    console.log(this.vote);
+    // console.log(this.vote);
 
     this.voteService.voteWithId(this.vote)
     .subscribe((data: {}) => {
         // this.router.navigate([this.returnUrl]);
-        this.onClose();
         // console.log(this.vote);
+        this.onClose();
       },
       error => {
           this.error = error;

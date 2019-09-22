@@ -1,31 +1,38 @@
-<form class="modal" [formGroup]="voterIdForm" (ngSubmit)="onVote()">
-    <div class="modal__header">
-      <div class="modal__title">Supply credentials to vote  {{candidate.candidatename}}</div>
-      <div (click)="onClose()" class="modal__closeBtn">X</div>
-    </div>
-    <div class="modal__body">
-      <div>{{candidate.electionname}}</div>
-      <div>{{party.partyname}}</div>
-      <div class="formItem">
-        <label for="username">Username</label>
-        <input type="text" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" >
-        <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-          <div *ngIf="f.username.errors.required">Username is required</div>
-        </div> -->
+<div class="tabs">
+  <div (click)="onFingerprintTab()" class="tab" [class.tab--active]="fingerprintTab">Finger Print</div> 
+  <div (click)="onUsercredTab()" class="tab" [class.tab--active]="credentialTab">User Credentials</div>
+</div>
+<div *ngIf="credentialTab" class="modal__overlay">
+
+  <form class="modal" [formGroup]="voterIdForm" (ngSubmit)="onVote()">
+      <div class="modal__header">
+        <div class="modal__title">Supply credentials to vote  {{candidate.candidatename}}</div>
+        <div (click)="onClose()" class="modal__closeBtn">X</div>
       </div>
-      <div class="formItem">
-        <label for="password">Password</label>
-        <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" >
-        <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
-          <div *ngIf="f.password.errors.required">Password is required</div>
-        </div> -->
+      <div class="modal__body">
+        <div>{{candidate.electionname}}</div>
+        <div>{{party.partyname}}</div>
+        <div class="formItem">
+          <label for="username">Username</label>
+          <input type="text" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" >
+          <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+            <div *ngIf="f.username.errors.required">Username is required</div>
+          </div> -->
+        </div>
+        <div class="formItem">
+          <label for="password">Password</label>
+          <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" >
+          <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+          </div> -->
+        </div>
+        <div class="auth__actions">
+          <button [disabled]="loading" class="btn btn-blue">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+            Vote {{candidate.candidatename}}
+          </button>
+          <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+        </div>
       </div>
-      <div class="auth__actions">
-        <button [disabled]="loading" class="btn btn-blue">
-          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
-          Vote {{candidate.candidatename}}
-        </button>
-        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
-      </div>
-    </div>
-  </form>
+    </form>
+</div>

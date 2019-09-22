@@ -12,14 +12,8 @@
           <div class="election__candidate">{{candidate.candidatename}}</div>
 
           <div class="voter__id">
-            <div class="tabs">
-              <div (click)="onFingerprintTab()" class="tab" [class.tab--active]="fingerprintTab">Finger Print</div>
-              <div (click)="onUsercredTab()" class="tab" [class.tab--active]="credentialTab">User Credentials</div>
-            </div>
-            <div *ngIf="credentialTab" class="modal__overlay">
-              <app-vote-modal (closeModal)="onClose()" [party]="party" [candidate]="candidate" [initData]="initData"></app-vote-modal>
-            </div>
-            <div *ngIf="fingerprintTab" class="tab__content"></div>
+            <app-vote-modal (closeModal)="onClose()" [party]="party" [candidate]="candidate" [initData]="initData"></app-vote-modal>
+            <!-- <div *ngIf="fingerprintTab" class="tab__content"></div> -->
           </div>
           <!-- <button class="btn btn-blue" type="button">
             Vote {{candidate.candidatename}}

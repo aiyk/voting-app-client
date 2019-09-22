@@ -687,7 +687,6 @@ button{
   background: rgba(0,0,0,.7);
 }
 .modal{
-  position: fixed;
   background: #fff;
   border-radius: 0.5rem;
   width: 45rem;
@@ -719,6 +718,23 @@ button{
   &:hover{
     color: #ff2500;
   }
+}
+.tabs {
+  display: flex;
+  border-bottom: .1rem solid #ddd;
+  margin: 1rem 0;
+}
+.tab {
+  padding: 1rem;
+  font-size: 1.6rem;
+  cursor: pointer;
+  border: .1rem solid transparent;
+  &:hover{
+    border: .1rem solid #eee;
+  }
+}
+.tab--active{
+  background: #f8f8f8;
 }
 
 @media only screen and (max-width: 650px) {
