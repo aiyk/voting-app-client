@@ -1,0 +1,31 @@
+<form class="modal" [formGroup]="voterIdForm" (ngSubmit)="onVote()">
+    <div class="modal__header">
+      <div class="modal__title">Edit Voter</div>
+      <div (click)="onClose()" class="modal__closeBtn">X</div>
+    </div>
+    <div class="modal__body">
+      <input type="hidden" formControlName="partyId">
+      <input type="hidden" formControlName="electionId">
+      <div class="formItem">
+        <label for="username">Username</label>
+        <input type="text" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" >
+        <!-- <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
+          <div *ngIf="f.username.errors.required">Username is required</div>
+        </div> -->
+      </div>
+      <div class="formItem">
+        <label for="password">Password</label>
+        <input type="password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" >
+        <!-- <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+        </div> -->
+      </div>
+      <div class="auth__actions">
+        <button [disabled]="loading" class="btn btn-blue">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Vote {{candidate.candidatename}}
+        </button>
+        <div *ngIf="error" class="alert alert-danger mt-3 mb-0">{{error}}</div>
+      </div>
+    </div>
+  </form>

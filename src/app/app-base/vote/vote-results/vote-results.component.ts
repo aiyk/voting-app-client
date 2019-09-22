@@ -71,7 +71,7 @@ export class VoteResultsComponent implements OnInit {
                   notInList = false;
                 }
               });
-              console.log(notInList);
+
               if(notInList){
                 this.compiledResult.push([ partyname, 0, candidate.electionname ]);
                 notInList = false;
@@ -80,10 +80,8 @@ export class VoteResultsComponent implements OnInit {
             this.elections.forEach(item => {
               item.votes.forEach(vote => {
                 this.partyService.getById(vote.party).subscribe(party => {
-                  // console.log(item);
                   if(party){
                     party.result.forEach( party_item => {
-                      // console.log(party_item);
                       if(vote.party === party_item._id){
                         vote.partyname = party_item.partyname;
                       }
@@ -96,7 +94,6 @@ export class VoteResultsComponent implements OnInit {
                   });
                 });
               });
-              // console.log(this.compiledResult);
             });
           });
         });

@@ -1,13 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { Router, ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { Party } from '../../../_models/party';
-import { Election } from '../../../_models/election'; 
+import { Election } from '../../../_models/election';
 
 import { AuthService } from '../../../services/auth.service';
-import { VoteService} from '../../../services/vote.service';
 import { ElectionService} from '../../../services/election.service';
 import { PartyService} from '../../../services/party.service';
 import { ActivePageService} from '../../../services/active-page.service';
@@ -27,7 +23,6 @@ export class VoteComponent implements OnInit {
   editMode = false;
   elections: Election[];
   parties: Party[];
-  voterIdForm: FormGroup;
   submitted = false;
 
   fingerprintTab = true;
@@ -35,8 +30,6 @@ export class VoteComponent implements OnInit {
 
   @Output() closeModal = new EventEmitter();
   @Input() initData: string; // country, state, lga, pooling unit
-
-  vote: any = {};
 
   pgData = {
     title: 'Voting Portal',
@@ -47,12 +40,8 @@ export class VoteComponent implements OnInit {
   };
 
   constructor(
-    private voteService: VoteService,
     private electionService: ElectionService,
     private partyService: PartyService,
-    private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
     private pageData: ActivePageService) { }
 
   clickItemIndex: number;
@@ -62,26 +51,16 @@ export class VoteComponent implements OnInit {
     this.loadElection();
     this.loadParties();
 
-    this.voterIdForm = this.formBuilder.group({
-      username: ['', Validators.required],
-      password: ['', Validators.required],
-      partyId: ['', Validators.required],
-      electionId: ['', Validators.required]
-    });
-
     this.pageData.changePageData(this.pgData);
 
     this.returnUrl = '/';
   }
-
-  get f() { return this.voterIdForm.controls; }
 
   loadElection(){
     this.electionService.getAll().subscribe(election => {
       if(election) {
         this.loading = false;
         this.elections = election.result;
-        console.log(this.elections);
       }
     });
   }
@@ -90,12 +69,12 @@ export class VoteComponent implements OnInit {
       if(parties) {
         this.loading = false;
         this.parties = parties.result;
-        console.log(this.parties);
       }
     });
   }
   onClose() {
-    this.closeModal.emit();
+    this.fingerprintTab = false;
+    this.credentialTab = false;
   }
   onFingerprintTab(){
     this.fingerprintTab = true;
@@ -104,25 +83,6 @@ export class VoteComponent implements OnInit {
   onUsercredTab(){
     this.fingerprintTab = false;
     this.credentialTab = true;
-  }
-
-  onVote() {
-
-    this.vote = this.initData;
-    this.vote.party_id = this.f.partyId.value;
-    this.vote.election_id = this.f.electionId.value;
-    this.vote.username = this.f.username.value,
-    this.vote.password = this.f.password.value,
-
-    this.voteService.voteWithId(this.vote)
-    .subscribe((data: {}) => {
-        // this.router.navigate([this.returnUrl]);
-        console.log(this.vote);
-      },
-      error => {
-          this.error = error;
-          this.loading = false;
-      });
   }
 
 }
