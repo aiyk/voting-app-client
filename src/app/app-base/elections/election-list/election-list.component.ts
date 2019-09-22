@@ -48,7 +48,7 @@ export class ElectionListComponent implements OnInit {
     this.electionService.getAll().subscribe(election => {
       if(election){ console.log(election);
         this.loading = false;
-        this.elections = election.result;
+        this.elections = election.result;  
       }
     });
   }

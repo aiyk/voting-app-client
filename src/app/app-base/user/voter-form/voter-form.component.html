@@ -1,5 +1,6 @@
 
 <form [formGroup]="voterForm" (ngSubmit)="onSubmit()">
+  <button (click)="capturePrints()" type="button" class="btn btn-blue">Capture finger print</button>
   <div class="formItem">
     <label for="firstname">First name</label>
     <input type="text" formControlName="firstname">
