@@ -75,6 +75,7 @@ export class VoteComponent implements OnInit {
   onClose() {
     this.fingerprintTab = false;
     this.credentialTab = false;
+    this.closeModal.emit();
   }
   onFingerprintTab(){
     this.fingerprintTab = true;

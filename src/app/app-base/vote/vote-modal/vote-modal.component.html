@@ -1,11 +1,11 @@
 <form class="modal" [formGroup]="voterIdForm" (ngSubmit)="onVote()">
     <div class="modal__header">
-      <div class="modal__title">Edit Voter</div>
+      <div class="modal__title">Supply credentials to vote  {{candidate.candidatename}}</div>
       <div (click)="onClose()" class="modal__closeBtn">X</div>
     </div>
     <div class="modal__body">
-      <input type="hidden" formControlName="partyId">
-      <input type="hidden" formControlName="electionId">
+      <div>{{candidate.electionname}}</div>
+      <div>{{party.partyname}}</div>
       <div class="formItem">
         <label for="username">Username</label>
         <input type="text" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" >

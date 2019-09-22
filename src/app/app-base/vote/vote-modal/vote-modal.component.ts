@@ -24,15 +24,11 @@ export class VoteModalComponent implements OnInit {
     ) { }
 
   ngOnInit() {
-    let candidate = this.candidate.election_id;
-    let party = this.party._id;
     this.voterIdForm = this.formBuilder.group({
       username: ['', Validators.required],
-      password: ['', Validators.required],
-      partyId: [party, Validators.required],
-      electionId: [candidate, Validators.required]
+      password: ['', Validators.required]
     });
-    console.log(party, candidate);
+    // console.log(party, candidate);
   }
 
   get f() { return this.voterIdForm.controls; }
@@ -44,15 +40,15 @@ export class VoteModalComponent implements OnInit {
   onVote() {
 
     // this.vote = this.initData;
-    this.vote.party_id = this.f.partyId.value;
+    this.vote.party_id = this.candidate.election_id;
     this.vote.state_id = this.initData.state_id;
     this.vote.lga_id = this.initData.lga_id;
     this.vote.poolingUnit_id = this.initData.poolingUnit_id;
-    this.vote.election_id = this.f.electionId.value;
+    this.vote.election_id = this.candidate.election_id;
     this.vote.username = this.f.username.value,
     this.vote.password = this.f.password.value,
 
-    console.log(this.vote, this.initData);
+    console.log(this.vote);
 
     this.voteService.voteWithId(this.vote)
     .subscribe((data: {}) => {
