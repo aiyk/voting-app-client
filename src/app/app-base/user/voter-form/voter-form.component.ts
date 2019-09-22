@@ -83,8 +83,8 @@ export class VoterFormComponent implements OnInit {
 
 
     this.pageData.changePageData(this.pgData);
-    this.voterService.connect();
     this.returnUrl = '/';
+    this.voterService.connect();
     this.voterService.biometricListener.subscribe(val => {
       
     });

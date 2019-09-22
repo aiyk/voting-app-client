@@ -23,7 +23,7 @@ export class OfficialListComponent implements OnInit {
   edit_mode = false;
 
   loading = false;
-  official: any = {};
+  official: any = [];
   formData: any;
   officialId: string;
 

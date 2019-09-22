@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VoteService} from '../../../services/vote.service';
+import { VoterService} from '../../../services/voter.service';
+import { Voter } from '../../../_models/voter';
 
 @Component({
   selector: 'app-vote-modal',
@@ -13,6 +15,7 @@ export class VoteModalComponent implements OnInit {
   @Input() party: any;
   @Input() initData: any;
   @Input() candidate: any;
+  @Input() voter: any;
   voterIdForm: FormGroup;
   vote: any = {};
   loading = false;
@@ -20,6 +23,7 @@ export class VoteModalComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private voterService: VoterService,
     private voteService: VoteService
     ) { }
 
@@ -29,12 +33,21 @@ export class VoteModalComponent implements OnInit {
       password: ['', Validators.required]
     });
     // console.log(party, candidate);
+    this.getVoter(this.voter._id);
   }
 
   get f() { return this.voterIdForm.controls; }
 
   onClose() {
     this.closeModal.emit();
+  }
+  getVoter(voter_id){
+    this.voterService.getById(voter_id).subscribe(voter => {
+      if(voter) {
+        this.loading = false;
+        this.voter = voter.result;
+      }
+    });
   }
 
   onVote() {

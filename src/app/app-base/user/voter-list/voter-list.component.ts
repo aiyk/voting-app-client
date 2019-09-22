@@ -29,7 +29,7 @@ export class VoterListComponent implements OnInit {
   edit_mode = false;
 
   loading = false;
-  voter: any = {};
+  voter: any = [];
   formData: any;
   voterId: string;
 
@@ -62,6 +62,7 @@ export class VoterListComponent implements OnInit {
       if(voter){
         this.loading = false;
         this.voter = voter.result;
+        console.log(this.voter);
 
         this.voter.forEach(data => {
           this.countryService.getById(data.country_id).subscribe(country => {

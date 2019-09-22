@@ -88,10 +88,22 @@ export class VoterEditComponent implements OnInit {
     this.pageData.changePageData(this.pgData);
 
     this.returnUrl = '/';
+    this.voterService.connect();
+    this.voterService.biometricListener.subscribe(val => {
+      
+    });
+  }
+
+  ngOnDestroy(){
+    this.voterService.disconnect();
   }
 
   // convenience getter for easy access to form fields
   get f() { return this.voterForm.controls; }
+
+  capturePrints(){
+    this.voterService.sendCommand("capture");
+  }
 
   onClose() {
     this.closeModal.emit();

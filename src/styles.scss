@@ -687,10 +687,15 @@ button{
   background: rgba(0,0,0,.7);
 }
 .modal{
+  position: fixed;
   background: #fff;
-  border-radius: .5rem;
-  min-width: 30rem;
+  border-radius: 0.5rem;
+  width: 45rem;
   min-height: 30rem;
+  max-height: 100vh;
+  overflow-x: auto;
+  top: 0;
+  left: calc(50% - 15rem);
 }
 .modal__header{
   width: 100%;
