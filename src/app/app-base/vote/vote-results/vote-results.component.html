@@ -1,3 +1,7 @@
-<p>
-  vote-results works!
-</p>
+<div class="election" *ngFor="let election of elections">
+  <div class="election__name">{{election.electionname}}</div>
+
+  <div class="votes" >
+    <div class="vote" *ngFor="let vote of election.votes">{{vote.partyname}}</div>
+  </div>
+</div>

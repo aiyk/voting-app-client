@@ -26,6 +26,7 @@ import { VoterFormComponent } from './user/voter-form/voter-form.component';
 import { OfficialListComponent } from './user/official-list/official-list.component';
 import { OfficialFormComponent } from './user/official-form/official-form.component';
 import { VoteInitComponent } from './vote/vote-init/vote-init.component';
+import { VoteResultsComponent } from './vote/vote-results/vote-results.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'evote', pathMatch: 'full' },
@@ -51,6 +52,7 @@ const routes: Routes = [
       { path: 'voter',  component: VoterListComponent, canActivate: [AuthGuard] },
       { path: 'voter-update',  component: VoterFormComponent },
       { path: 'vote',  component: VoteInitComponent, canActivate: [AuthGuard] },
+      { path: 'vote-results',  component: VoteResultsComponent, canActivate: [AuthGuard] },
       { path: 'official',  component: OfficialListComponent, canActivate: [AuthGuard] },
       { path: 'official-update',  component: OfficialFormComponent },
       // { path: 'lga-update/:id',  component: LgaEditComponent },
