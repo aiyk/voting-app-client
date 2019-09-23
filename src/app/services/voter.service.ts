@@ -45,7 +45,7 @@ connect() {
         self.stompClient.subscribe('/topic/biometrics', function (data) {
           //.parseData(data);
           // console.log(data);
-          data = JSON.parse(data);
+          data = JSON.parse(data.body);
           self.biometricData = data.data;
           self.biometricListener.next();
           // console.log(self.biometricData);

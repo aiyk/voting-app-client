@@ -18,6 +18,7 @@ export class VoteModalComponent implements OnInit {
   @Input() voter: any;
   voterIdForm: FormGroup;
   vote: any = {};
+  votersPrints = [];
   loading = false;
   error = '';
   fingerprintTab = true;
@@ -35,7 +36,21 @@ export class VoteModalComponent implements OnInit {
       password: ['', Validators.required]
     });
     // console.log(party, candidate);
-    this.getVoter(this.voter._id);
+    //this.getVoter(this.voter._id);
+    this.voterService.getAll().subscribe(voters => {
+      if(voters) {
+        voters.result.forEach(voter => {
+          console.log(voter);
+          this.votersPrints.push(
+            {
+              id: voter._id,
+              data: voter.fingerprint
+            }
+          )
+        });
+      }
+      console.log('hello from the modal', this.votersPrints);
+    });
   }
 
   get f() { return this.voterIdForm.controls; }
