@@ -8,7 +8,7 @@ import { User } from '../_models/user';
 @Injectable({
   providedIn: 'root'
 })
-export class StatesService {
+export class StatesService { 
 
   apiUrl: string = 'http://localhost:5000/api/state';
   currentUser: User;

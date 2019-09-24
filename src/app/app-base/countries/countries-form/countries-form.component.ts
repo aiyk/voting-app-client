@@ -11,7 +11,7 @@ import { ActivePageService} from '../../../services/active-page.service';
 
 @Component({
   selector: 'app-countries-form',
-  templateUrl: './countries-form.component.html', 
+  templateUrl: './countries-form.component.html',  
   styleUrls: ['./countries-form.component.scss']
 })
 export class CountriesFormComponent implements OnInit {
