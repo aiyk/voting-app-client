@@ -7,6 +7,8 @@ import { AuthService } from '../../../services/auth.service';
 import { ElectionService} from '../../../services/election.service';
 import { PartyService} from '../../../services/party.service';
 import { ActivePageService} from '../../../services/active-page.service';
+import { VoterService} from '../../../services/voter.service';
+import { VoteService} from '../../../services/vote.service';
 
 @Component({
   selector: 'app-vote',
@@ -24,6 +26,8 @@ export class VoteComponent implements OnInit {
   elections: Election[];
   parties: Party[];
   submitted = false;
+  votersPrints = [];
+  vote: any = {};
 
   @Output() closeModal = new EventEmitter();
   @Input() initData: string; // country, state, lga, pooling unit
@@ -39,18 +43,67 @@ export class VoteComponent implements OnInit {
   constructor(
     private electionService: ElectionService,
     private partyService: PartyService,
+    private voterService: VoterService,
+    private voteService: VoteService,
     private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
     this.loading = true;
 
+    this.voteService.connect();
+    this.voteService.biometricListener.subscribe(val => {
+      
+    });
+
     this.loadElection();
     this.loadParties();
+
+    this.voterService.getAll().subscribe(voters => { console.log(voters);
+      if(voters) {
+        voters.result.forEach(voter => {
+          console.log(voter);
+          this.votersPrints.push(
+            {
+              id: voter._id,
+              data: voter.fingerprint
+            }
+          )
+        });
+      }
+    });
 
     this.pageData.changePageData(this.pgData);
 
     this.returnUrl = '/';
+  }
+  ngOnDestroy(){
+    this.voteService.disconnect();
+  }
+
+  voteWithPrints(party, election){
+
+    this.voterService.sendCommand("verify", this.votersPrints);
+
+    // this.vote = this.initData;
+    this.vote.party_id = party;
+    this.vote.state_id = this.initData.state_id;
+    this.vote.lga_id = this.initData.lga_id;
+    this.vote.poolingUnit_id = this.initData.poolingUnit_id;
+    this.vote.election_id = election;
+
+    // console.log(this.vote);
+
+    this.voteService.voteWithId(this.vote)
+    .subscribe((data: {}) => {
+        // this.router.navigate([this.returnUrl]);
+        // console.log(this.vote);
+        this.onClose();
+      },
+      error => {
+          this.error = error;
+          this.loading = false;
+      });
   }
 
   loadElection(){

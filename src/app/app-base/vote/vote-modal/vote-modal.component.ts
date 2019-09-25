@@ -18,7 +18,6 @@ export class VoteModalComponent implements OnInit {
   @Input() voter: any;
   voterIdForm: FormGroup;
   vote: any = {};
-  votersPrints = [];
   loading = false;
   error = '';
   fingerprintTab = true;

@@ -11,6 +11,8 @@
           <div class="election__name">{{candidate.electionname}}</div>
           <div class="election__candidate">{{candidate.candidatename}}</div>
 
+          <button (click)="voteWithPrints(party._id, candidate.election_id)" class="btn btn-blue">Vote</button>
+
           <div class="voter__id">
             <app-vote-modal (closeModal)="onClose()" [party]="party" [candidate]="candidate" [initData]="initData"></app-vote-modal>
             <!-- <div *ngIf="fingerprintTab" class="tab__content"></div> -->
