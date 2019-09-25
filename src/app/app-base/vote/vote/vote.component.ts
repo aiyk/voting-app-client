@@ -53,7 +53,7 @@ export class VoteComponent implements OnInit {
 
     this.voteService.connect();
     this.voteService.biometricListener.subscribe(val => {
-      
+
     });
 
     this.loadElection();
@@ -62,7 +62,6 @@ export class VoteComponent implements OnInit {
     this.voterService.getAll().subscribe(voters => { console.log(voters);
       if(voters) {
         voters.result.forEach(voter => {
-          console.log(voter);
           this.votersPrints.push(
             {
               id: voter._id,

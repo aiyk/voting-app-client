@@ -26,7 +26,7 @@ export class VoterFormComponent implements OnInit {
 
   loading = false;
   voters: Voter[];
-  countries: Country[];  
+  countries: Country[];
   states: State[];
   lgas: Lga[];
   units: PoolingUnit[];
@@ -78,7 +78,7 @@ export class VoterFormComponent implements OnInit {
       address: ['', Validators.required],
       occupation: ['', Validators.required],
       gender: ['', Validators.required],
-      dateOfBirth: ['', Validators.required] 
+      dateOfBirth: ['', Validators.required]
     });
 
 
@@ -86,7 +86,7 @@ export class VoterFormComponent implements OnInit {
     this.returnUrl = '/';
     this.voterService.connect();
     this.voterService.biometricListener.subscribe(val => {
-      
+
     });
   }
 
@@ -134,39 +134,66 @@ export class VoterFormComponent implements OnInit {
     });
   }
 
+  calculate_age(birth_month,birth_day,birth_year){
+      let today_date = new Date();
+      let today_year = today_date.getFullYear();
+      let today_month = today_date.getMonth();
+      let today_day = today_date.getDate();
+      let age = today_year - birth_year;
+
+      if ( today_month < (birth_month - 1))
+      {
+          age--;
+      }
+      if (((birth_month - 1) == today_month) && (today_day < birth_day))
+      {
+          age--;
+      }
+      return age;
+  }
+
   onSubmit() {
-    this.submitted = true;
+    let splited = this.f.dateOfBirth.value.split('-');
+    let age = this.calculate_age(splited[1],splited[2],splited[0]);
+    console.log(age);
 
-    // stop here if form is invalid
-    if (this.voterForm.invalid) {
-        return;
+    if(age > 17){
+
+      this.submitted = true;
+
+      // stop here if form is invalid
+      if (this.voterForm.invalid) {
+          return;
+      }
+
+      this.loading = true;
+
+      let voter = {
+        firstname: this.f.firstname.value,
+        lastname: this.f.lastname.value,
+        othernames: this.f.othernames.value,
+        email: this.f.email.value,
+        country_id: this.f.country.value,
+        state_id: this.f.state.value,
+        lga_id: this.f.lga.value,
+        poolingUnit_id: this.f.poolingunit.value,
+        occupation: this.f.occupation.value,
+        address: this.f.address.value,
+        gender: this.f.gender.value,
+        dateOfBirth: this.f.dateOfBirth.value
+      };
+
+      this.voterService.create(voter)
+      .subscribe((data: {}) => {
+            this.router.navigate([this.returnUrl]);
+        },
+        error => {
+            this.error = error;
+            this.loading = false;
+        });
+    } else {
+      window.alert('you are not old enough to vote');
     }
-
-    this.loading = true;
-
-    let voter = {
-      firstname: this.f.firstname.value,
-      lastname: this.f.lastname.value,
-      othernames: this.f.othernames.value,
-      email: this.f.email.value,
-      country_id: this.f.country.value,
-      state_id: this.f.state.value,
-      lga_id: this.f.lga.value,
-      poolingUnit_id: this.f.poolingunit.value,
-      occupation: this.f.occupation.value,
-      address: this.f.address.value,
-      gender: this.f.gender.value,
-      dateOfBirth: this.f.dateOfBirth.value
-    };
-
-    this.voterService.create(voter)
-    .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
-      },
-      error => {
-          this.error = error;
-          this.loading = false;
-      });
   }
 
 }

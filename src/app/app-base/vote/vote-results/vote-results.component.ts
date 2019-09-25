@@ -59,42 +59,47 @@ export class VoteResultsComponent implements OnInit {
         this.elections = elections.result;
 
         this.partyService.getAll().subscribe(party => {
+          let partylist = [];
           party.result.map(item => {
             let partyname = item.partyname;
-            item.candidates.forEach( candidate =>{
-              if(this.compiledResult.length === 0){
-                this.compiledResult.push([ partyname, 0, candidate.electionname ]);
-              }
-              let notInList = true;
-              this.compiledResult.forEach(entry => {
-                if(entry[0] === partyname && entry[2] === candidate.electionname){
+
+            if(partylist.indexOf(partyname) === -1){
+              item.candidates.forEach( candidate =>{
+                if(this.compiledResult.length === 0){
+                  this.compiledResult.push([ partyname, 0, candidate.electionname ]);
+                }
+                let notInList = true;
+                this.compiledResult.forEach(entry => {
+                  if(entry[0] === partyname && entry[2] === candidate.electionname){
+                    notInList = false;
+                  }
+                });
+
+                if(notInList){
+                  this.compiledResult.push([ partyname, 0, candidate.electionname ]);
                   notInList = false;
                 }
               });
-
-              if(notInList){
-                this.compiledResult.push([ partyname, 0, candidate.electionname ]);
-                notInList = false;
-              }
-            });
-            this.elections.forEach(item => {
-              item.votes.forEach(vote => {
-                this.partyService.getById(vote.party).subscribe(party => {
-                  if(party){
-                    party.result.forEach( party_item => {
-                      if(vote.party === party_item._id){
-                        vote.partyname = party_item.partyname;
+              this.elections.forEach(item => {
+                item.votes.forEach(vote => {
+                  this.partyService.getById(vote.party).subscribe(party => {
+                    if(party){
+                      party.result.forEach( party_item => {
+                        if(vote.party === party_item._id){
+                          vote.partyname = party_item.partyname;
+                        }
+                      });
+                    }
+                    this.compiledResult.forEach(partyResult => {
+                      if( partyResult[0] === vote.partyname && partyResult[2] === item.electionname){
+                        partyResult[1] ++;
                       }
                     });
-                  }
-                  this.compiledResult.forEach(partyResult => {
-                    if( partyResult[0] === vote.partyname && partyResult[2] === item.electionname){
-                      partyResult[1] ++;
-                    }
                   });
                 });
               });
-            });
+              partylist.push(partyname);
+            }
           });
         });
 
