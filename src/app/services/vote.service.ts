@@ -24,7 +24,7 @@ export class VoteService {
       return this.http.get<Election>(`${this.apiUrl}/getResult/` + id);
   }
 
-  voteWithId(vote): Observable<Election> {
+  voteWithId(vote): Observable<Election> { 
     let voterChoice = {
       username: vote.username,
       password: vote.password,

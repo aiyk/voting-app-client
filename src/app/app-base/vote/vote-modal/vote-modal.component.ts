@@ -40,7 +40,6 @@ export class VoteModalComponent implements OnInit {
     this.voterService.getAll().subscribe(voters => {
       if(voters) {
         voters.result.forEach(voter => {
-          console.log(voter);
           this.votersPrints.push(
             {
               id: voter._id,
@@ -49,7 +48,6 @@ export class VoteModalComponent implements OnInit {
           )
         });
       }
-      console.log('hello from the modal', this.votersPrints);
     });
   }
 

@@ -89,7 +89,7 @@ export class VoteResultsComponent implements OnInit {
                   }
                   this.compiledResult.forEach(partyResult => {
                     if( partyResult[0] === vote.partyname && partyResult[2] === item.electionname){
-                      partyResult[1] += 1;
+                      partyResult[1] ++;
                     }
                   });
                 });
