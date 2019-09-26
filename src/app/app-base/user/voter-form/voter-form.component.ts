@@ -155,7 +155,6 @@ export class VoterFormComponent implements OnInit {
   onSubmit() {
     let splited = this.f.dateOfBirth.value.split('-');
     let age = this.calculate_age(splited[1],splited[2],splited[0]);
-    console.log(age);
 
     if(age > 17){
 

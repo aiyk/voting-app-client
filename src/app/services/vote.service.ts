@@ -36,7 +36,7 @@ export class VoteService {
       return this.http.get<Election>(`${this.apiUrl}/getResult/` + id);
   }
 
-  voteWithId(vote): Observable<Election> { 
+  voteWithId(vote): Observable<Election> {
     let voterChoice = {
       username: vote.username,
       password: vote.password,
@@ -51,17 +51,21 @@ export class VoteService {
     return this.http.put<Election>(this.apiUrl + '/voteWithId', JSON.stringify(voterChoice));
   }
   voteWithPrimts(vote): Observable<Election> {
-    let voterChoice = {
-      fingerprint: vote.fingerprint,
-      election_id: vote.election_id,
-      vote: {
-        party: vote.party_id,
-        state: vote.state_id, // voters state(string)
-        lga: vote.lga_id, // voters lga (string)
-        poolingUnnit: vote.poolingUnit_id // voters pooling unit (string)
+    let printResult = JSON.parse(this.biometricData);
+
+    if(printResult.content){
+      let voterChoice = {
+        voter: printResult.content,
+        election_id: vote.election_id,
+        vote: {
+          party: vote.party_id,
+          state: vote.state_id, // voters state(string)
+          lga: vote.lga_id, // voters lga (string)
+          poolingUnit: vote.poolingUnit_id // voters pooling unit (string)
+        }
       }
+      return this.http.put<Election>(this.apiUrl + '/voteWithId', JSON.stringify(voterChoice));
     }
-    return this.http.put<Election>(this.apiUrl + '/voteWithId', JSON.stringify(voterChoice));
   }
 
   // FINGER PRINT METHODS
