@@ -194,5 +194,4 @@ export class VoterFormComponent implements OnInit {
       window.alert('you are not old enough to vote');
     }
   }
-
 }

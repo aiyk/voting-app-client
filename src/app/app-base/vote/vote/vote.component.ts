@@ -93,7 +93,7 @@ export class VoteComponent implements OnInit {
 
     // console.log(this.vote);
 
-    this.voteService.voteWithId(this.vote)
+    this.voteService.voteWithPrimts(this.vote)
     .subscribe((data: {}) => {
         // this.router.navigate([this.returnUrl]);
         // console.log(this.vote);
