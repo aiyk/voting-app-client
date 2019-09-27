@@ -50,7 +50,7 @@ export class VoteService {
     }
     return this.http.put<Election>(this.apiUrl + '/voteWithId', JSON.stringify(voterChoice));
   }
-  voteWithPrimts(vote): Observable<Election> {
+  voteWithPrints(vote): Observable<Election> {
     let printResult = JSON.parse(this.biometricData);
 
     if(printResult.content){
@@ -83,7 +83,7 @@ export class VoteService {
             //.parseData(data);
             // console.log(data);
             data = JSON.parse(data.body);
-            self.biometricData = data.data;
+            self.biometricData = data.content;
             self.biometricListener.next();
             // console.log(self.biometricData);
           });

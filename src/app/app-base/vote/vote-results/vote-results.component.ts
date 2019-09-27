@@ -26,6 +26,7 @@ export class VoteResultsComponent implements OnInit {
   id: string;
   initData: any = {};
   compiledResult = [];
+  theCounter = 0;
 
   pgData = {
     title: 'Vote Results',
@@ -60,6 +61,7 @@ export class VoteResultsComponent implements OnInit {
 
         this.partyService.getAll().subscribe(party => {
           let partylist = [];
+          this.theCounter = party.result.length;
           party.result.map(item => {
             let partyname = item.partyname;
 
@@ -95,6 +97,12 @@ export class VoteResultsComponent implements OnInit {
                         partyResult[1] ++;
                       }
                     });
+
+                    // this.compiledResult.forEach(partyResult => {
+                    //   console.log(partyResult, this.theCounter );
+                    //   partyResult[1] = ( partyResult[1] / this.theCounter );
+                    //   console.log(partyResult, this.theCounter );
+                    // });
                   });
                 });
               });
