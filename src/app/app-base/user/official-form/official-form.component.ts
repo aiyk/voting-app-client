@@ -8,6 +8,7 @@ import { Official } from '../../../_models/official';
 
 import { AuthService } from '../../../services/auth.service';
 import { OfficialService} from '../../../services/official.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { PoolingUnitService} from '../../../services/pooling-unit.service';
 import { ActivePageService} from '../../../services/active-page.service';
 
@@ -39,6 +40,7 @@ export class OfficialFormComponent implements OnInit {
 
   constructor(
     private officialService: OfficialService,
+    private notifierService: NotifierService,
     private unitService: PoolingUnitService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -81,7 +83,7 @@ export class OfficialFormComponent implements OnInit {
     this.submitted = true;
 
     // stop here if form is invalid
-    if (this.officialForm.invalid) { 
+    if (this.officialForm.invalid) {
         return;
     }
 
@@ -98,11 +100,31 @@ export class OfficialFormComponent implements OnInit {
 
     this.officialService.create(official)
     .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
+      let notificaationData = {
+        type: 'success', // ERROR SUCCESS INFO
+        title: 'Created Sucessfully',
+        msg: 'Official was sucessfully created',
+        active: true
+      }
+
+      let _self = this;
+      this.notifierService.newNotification(notificaationData);
+      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      this.router.navigate([this.returnUrl]);
       },
       error => {
           this.error = error;
           this.loading = false;
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Error',
+            msg: 'Official was not sucessfully created, try again',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
       });
   }
 

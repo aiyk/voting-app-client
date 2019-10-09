@@ -8,6 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 import { OfficialService} from '../../../services/official.service';
 import { PoolingUnitService} from '../../../services/pooling-unit.service';
 import { ActivePageService} from '../../../services/active-page.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { OfficialEditComponent } from '../official-edit/official-edit.component';
 
 @Component({
@@ -35,7 +36,11 @@ export class OfficialListComponent implements OnInit {
     }
   };
 
-  constructor(private officialService: OfficialService,  private poolingUnitService: PoolingUnitService, private pageData: ActivePageService) { }
+  constructor(
+    private officialService: OfficialService,
+    private notifierService: NotifierService,
+    private poolingUnitService: PoolingUnitService,
+    private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
@@ -74,7 +79,32 @@ export class OfficialListComponent implements OnInit {
 
   deleteOfficial(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.officialService.delete(id).subscribe(data => this.loadOfficial());
+      this.officialService.delete(id).subscribe(data => {
+
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Deleted Sucessfully',
+          msg: 'Official was sucessfully deleted from the system',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        this.loadOfficial();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Delete failed',
+            msg: 'Official data  was not sucessfully deleted, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
     }
   }
 
