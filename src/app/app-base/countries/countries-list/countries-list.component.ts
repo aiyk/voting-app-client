@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { Country } from '../../../_models/country';
+import { User } from '../../../_models/user';
 
 import { AuthService } from '../../../services/auth.service';
 import { CountryService} from '../../../services/country.service';
@@ -24,6 +25,7 @@ export class CountriesListComponent implements OnInit {
   countries: Country[];
   formData: any;
   countryId: string;
+  currentUser: User;
 
   pgData = {
     title: 'List of Countries',
@@ -33,7 +35,11 @@ export class CountriesListComponent implements OnInit {
     }
   };
 
-  constructor(private countryService: CountryService, private pageData: ActivePageService) { }
+  constructor(private countryService: CountryService,
+    private pageData: ActivePageService,
+    private authenticationService: AuthService) {
+      this.currentUser = this.authenticationService.currentUserValue;
+    }
 
   clickItemIndex: number;
   ngOnInit() {
