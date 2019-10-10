@@ -7,11 +7,12 @@ import { Country } from '../../../_models/country';
 
 import { AuthService } from '../../../services/auth.service';
 import { CountryService} from '../../../services/country.service';
-import { ActivePageService} from '../../../services/active-page.service'; 
+import { NotifierService} from '../../../services/notifier.service';
+import { ActivePageService} from '../../../services/active-page.service';
 
 @Component({
   selector: 'app-countries-form',
-  templateUrl: './countries-form.component.html',  
+  templateUrl: './countries-form.component.html',
   styleUrls: ['./countries-form.component.scss']
 })
 export class CountriesFormComponent implements OnInit {
@@ -33,6 +34,7 @@ export class CountriesFormComponent implements OnInit {
 
   constructor(
     private countryService: CountryService,
+    private notifierService: NotifierService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
@@ -71,11 +73,31 @@ export class CountriesFormComponent implements OnInit {
 
     this.countryService.create(country)
     .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
+      let notificaationData = {
+        type: 'success', // ERROR SUCCESS INFO
+        title: 'Created Sucessfully',
+        msg: 'Country was sucessfully created',
+        active: true
+      }
+
+      let _self = this;
+      this.notifierService.newNotification(notificaationData);
+      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      this.router.navigate([this.returnUrl]);
       },
       error => {
           this.error = error;
           this.loading = false;
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Error',
+            msg: 'Country was not sucessfully created, try again',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
       });
   }
 

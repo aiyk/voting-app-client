@@ -4,6 +4,7 @@ import { Party } from '../../../_models/party';
 import { Election } from '../../../_models/election';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { ElectionService} from '../../../services/election.service';
 import { PartyService} from '../../../services/party.service';
 import { ActivePageService} from '../../../services/active-page.service';
@@ -42,6 +43,7 @@ export class VoteComponent implements OnInit {
 
   constructor(
     private electionService: ElectionService,
+    private notifierService: NotifierService,
     private partyService: PartyService,
     private voterService: VoterService,
     private voteService: VoteService,
@@ -59,7 +61,7 @@ export class VoteComponent implements OnInit {
     this.loadElection();
     this.loadParties();
 
-    this.voterService.getAll().subscribe(voters => { console.log(voters);
+    this.voterService.getAll().subscribe(voters => {
       if(voters) {
         voters.result.forEach(voter => {
           this.votersPrints.push(
@@ -95,14 +97,32 @@ export class VoteComponent implements OnInit {
 
     this.voteService.voteWithPrints(this.vote)
     .subscribe((data: {}) => {
-        // this.router.navigate([this.returnUrl]);
-        // console.log(this.vote);
-        this.onClose();
-      },
-      error => {
-          this.error = error;
-          this.loading = false;
-      });
+      let notificaationData = {
+        type: 'success', // ERROR SUCCESS INFO
+        title: 'Voted Sucessfully',
+        msg: 'Your vote was sucessfully captured',
+        active: true
+      }
+
+      let _self = this;
+      this.notifierService.newNotification(notificaationData);
+      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      // this.loadCountries();
+    },
+    error => {
+      let notificaationData = {
+        type: 'error', // ERROR SUCCESS INFO
+        title: 'Invalid vote',
+        msg: 'Your vote was not captured',
+        active: true
+      }
+
+      let _self = this;
+      this.notifierService.newNotification(notificaationData);
+      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+    });
+    this.onClose();
+    // this.router.navigate([this.returnUrl]);
   }
 
   loadElection(){

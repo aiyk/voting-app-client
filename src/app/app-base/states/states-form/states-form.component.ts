@@ -7,6 +7,7 @@ import { Country } from '../../../_models/country';
 import { State } from '../../../_models/state';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { CountryService} from '../../../services/country.service';
 import { StatesService} from '../../../services/states.service';
 import { ActivePageService} from '../../../services/active-page.service';
@@ -39,6 +40,7 @@ export class StatesFormComponent implements OnInit {
 
   constructor(
     private countryService: CountryService,
+    private notifierService: NotifierService,
     private stateService: StatesService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -94,11 +96,31 @@ export class StatesFormComponent implements OnInit {
 
     this.stateService.create(state)
     .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
+      let notificaationData = {
+        type: 'success', // ERROR SUCCESS INFO
+        title: 'Created Sucessfully',
+        msg: 'State was sucessfully created',
+        active: true
+      }
+
+      let _self = this;
+      this.notifierService.newNotification(notificaationData);
+      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      this.router.navigate([this.returnUrl]);
       },
       error => {
           this.error = error;
           this.loading = false;
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Error',
+            msg: 'State was not sucessfully created, try again',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
       });
   }
 

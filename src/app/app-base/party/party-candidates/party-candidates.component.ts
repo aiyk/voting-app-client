@@ -7,6 +7,7 @@ import { Election } from '../../../_models/election';
 import { Party } from '../../../_models/party';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { ElectionService} from '../../../services/election.service';
 import { PartyService} from '../../../services/party.service';
 import { ActivePageService} from '../../../services/active-page.service';
@@ -44,6 +45,7 @@ export class PartyCandidatesComponent implements OnInit {
 
   constructor(
     private electionService: ElectionService,
+    private notifierService: NotifierService,
     private partyService: PartyService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -104,11 +106,31 @@ export class PartyCandidatesComponent implements OnInit {
 
           this.partyService.updateCandidate(this.partyId, this.candidate)
           .subscribe((data: {}) => {
-              this.router.navigate([this.returnUrl]);
+            let notificaationData = {
+              type: 'success', // ERROR SUCCESS INFO
+              title: 'Created Sucessfully',
+              msg: 'Candidate was sucessfully created',
+              active: true
+            }
+
+            let _self = this;
+            this.notifierService.newNotification(notificaationData);
+            setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+            this.router.navigate([this.returnUrl]);
             },
             error => {
                 this.error = error;
                 this.loading = false;
+                let notificaationData = {
+                  type: 'error', // ERROR SUCCESS INFO
+                  title: 'Error',
+                  msg: 'Candidate was not sucessfully created, try again',
+                  active: true
+                }
+
+                let _self = this;
+                this.notifierService.newNotification(notificaationData);
+                setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
             });
         }
       });

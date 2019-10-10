@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 import { PoolingUnit } from '../../../_models/pooling-unit';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { PoolingUnitService} from '../../../services/pooling-unit.service';
 import { ActivePageService} from '../../../services/active-page.service';
 import { PoolingUnitEditComponent } from '../pooling-unit-edit/pooling-unit-edit.component';
@@ -33,7 +34,10 @@ export class PoolingUnitListComponent implements OnInit {
     }
   };
 
-  constructor(private poolingUnitService: PoolingUnitService, private pageData: ActivePageService) { }
+  constructor(
+    private poolingUnitService: PoolingUnitService,
+    private notifierService: NotifierService,
+    private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
@@ -64,7 +68,31 @@ export class PoolingUnitListComponent implements OnInit {
 
   deleteUnit(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.poolingUnitService.delete(id).subscribe(data => this.loadUnit());
+      this.poolingUnitService.delete(id).subscribe(data => {
+          let notificaationData = {
+            type: 'success', // ERROR SUCCESS INFO
+            title: 'Deleted Sucessfully',
+            msg: 'Pooling unit was sucessfully deleted from the system',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+          this.loadUnit();
+        },
+        error => {
+            let notificaationData = {
+              type: 'error', // ERROR SUCCESS INFO
+              title: 'Delete failed',
+              msg: 'Pooling unit data  was not sucessfully deleted, try again.',
+              active: true
+            }
+
+            let _self = this;
+            this.notifierService.newNotification(notificaationData);
+            setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        });
     }
   }
 

@@ -10,7 +10,7 @@
 }
 .theme--green{
   background-color: var(--green);
-  border: .1rem solid var(--green-dark);
+  // border: .1rem solid var(--green-dark);
   .notifier__title{
     padding: 1rem;
     border-bottom: .1rem solid var(--green-dark);
@@ -22,7 +22,7 @@
 }
 .theme--red{
   background-color: var(--red);
-  border: .1rem solid var(--red-dark);
+  // border: .1rem solid var(--red-dark);
   .notifier__title{
     padding: 1rem;
     border-bottom: .1rem solid var(--red-dark);
@@ -34,7 +34,7 @@
 }
 .theme--blue{
   background-color: var(--blue-lite);
-  border: .1rem solid var(--blue-dark);
+  // border: .1rem solid var(--blue-dark);
   .notifier__title{
     padding: 1rem;
     border-bottom: .1rem solid var(--blue-dark);

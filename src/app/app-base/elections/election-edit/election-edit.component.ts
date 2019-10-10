@@ -9,6 +9,7 @@ import { Lga } from '../../../_models/lga';
 import { PoolingUnit } from '../../../_models/pooling-unit';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { CountryService} from '../../../services/country.service';
 import { ElectionService} from '../../../services/election.service';
 import { ActivePageService} from '../../../services/active-page.service';
@@ -47,6 +48,7 @@ export class ElectionEditComponent implements OnInit {
 
   constructor(
     private countryService: CountryService,
+    private notifierService: NotifierService,
     private electionService: ElectionService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -103,12 +105,32 @@ export class ElectionEditComponent implements OnInit {
 
       this.electionService.update(this.electionId, this.election)
       .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-            this.error = error;
-            this.loading = false;
-        });
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Sucessfully Edited',
+          msg: 'Election was sucessfully edited',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        // this.loadCountries();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Update failed',
+            msg: 'Election data  was not sucessfully updated, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
+      this.onClose();
+      this.router.navigate([this.returnUrl]);
     }
   }
 

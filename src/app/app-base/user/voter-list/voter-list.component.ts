@@ -8,6 +8,7 @@ import { Lga } from '../../../_models/lga';
 import { PoolingUnit } from '../../../_models/pooling-unit';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { VoterService} from '../../../services/voter.service';
 import { CountryService} from '../../../services/country.service';
 import { StatesService} from '../../../services/states.service';
@@ -42,6 +43,7 @@ export class VoterListComponent implements OnInit {
   };
 
   constructor(private voterService: VoterService,
+    private notifierService: NotifierService,
     private countryService: CountryService,
     private stateService: StatesService,
     private lgaService: LgaService,
@@ -95,7 +97,31 @@ export class VoterListComponent implements OnInit {
 
   deleteVoter(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.voterService.delete(id).subscribe(data => this.loadVoters());
+      this.voterService.delete(id).subscribe(data => {
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Deleted Sucessfully',
+          msg: 'Voter was sucessfully deleted from the system',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        this.loadVoters();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Delete failed',
+            msg: 'Voter data  was not sucessfully deleted, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
     }
   }
 

@@ -136,6 +136,8 @@ export class OfficialEditComponent implements OnInit {
             this.notifierService.newNotification(notificaationData);
             setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
         });
+        this.onClose();
+        this.router.navigate([this.returnUrl]);
     }
   }
 

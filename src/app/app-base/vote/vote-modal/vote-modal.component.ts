@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VoteService} from '../../../services/vote.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { VoterService} from '../../../services/voter.service';
 import { Voter } from '../../../_models/voter';
 
@@ -25,6 +26,7 @@ export class VoteModalComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private notifierService: NotifierService,
     private voterService: VoterService,
     private voteService: VoteService
     ) { }
@@ -89,14 +91,32 @@ export class VoteModalComponent implements OnInit {
 
     this.voteService.voteWithId(this.vote)
     .subscribe((data: {}) => {
-        // this.router.navigate([this.returnUrl]);
-        // console.log(this.vote);
-        this.onClose();
-      },
-      error => {
-          this.error = error;
-          this.loading = false;
-      });
+      let notificaationData = {
+        type: 'success', // ERROR SUCCESS INFO
+        title: 'Voted Sucessfully',
+        msg: 'Your vote was sucessfully captured',
+        active: true
+      }
+
+      let _self = this;
+      this.notifierService.newNotification(notificaationData);
+      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      // this.loadCountries();
+    },
+    error => {
+      let notificaationData = {
+        type: 'error', // ERROR SUCCESS INFO
+        title: 'Invalid vote',
+        msg: 'Your vote was not captured',
+        active: true
+      }
+
+      let _self = this;
+      this.notifierService.newNotification(notificaationData);
+      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+    });
+    this.onClose();
+    // this.router.navigate([this.returnUrl]);
   }
 
 }

@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 import { Party } from '../../../_models/party';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { PartyService} from '../../../services/party.service';
 import { ElectionService} from '../../../services/election.service';
 import { ActivePageService} from '../../../services/active-page.service';
@@ -37,6 +38,7 @@ export class PartyListComponent implements OnInit {
   };
 
   constructor(private partyService: PartyService,
+    private notifierService: NotifierService,
     private electionService: ElectionService,
     private pageData: ActivePageService) { }
 
@@ -85,7 +87,31 @@ export class PartyListComponent implements OnInit {
 
   deleteParty(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.partyService.delete(id).subscribe(data => this.loadParty());
+      this.partyService.delete(id).subscribe(data => {
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Deleted Sucessfully',
+          msg: 'Party was sucessfully deleted from the system',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        this.loadParty();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Delete failed',
+            msg: 'Party data  was not sucessfully deleted, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
     }
   }
 

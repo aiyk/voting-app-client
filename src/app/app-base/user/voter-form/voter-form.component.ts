@@ -10,6 +10,7 @@ import { PoolingUnit } from '../../../_models/pooling-unit';
 import { Voter } from '../../../_models/voter';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { VoterService} from '../../../services/voter.service';
 import { CountryService} from '../../../services/country.service';
 import { StatesService} from '../../../services/states.service';
@@ -48,6 +49,7 @@ export class VoterFormComponent implements OnInit {
 
   constructor(
     private voterService: VoterService,
+    private notifierService: NotifierService,
     private countryService: CountryService,
     private stateService: StatesService,
     private lgaService: LgaService,
@@ -184,14 +186,34 @@ export class VoterFormComponent implements OnInit {
 
       this.voterService.create(voter)
       .subscribe((data: {}) => {
-            this.router.navigate([this.returnUrl]);
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Created Sucessfully',
+          msg: 'Voter was sucessfully created',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        this.router.navigate([this.returnUrl]);
         },
         error => {
-            this.error = error;
-            this.loading = false;
-        });
+          this.error = error;
+          this.loading = false;
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Error',
+            msg: 'Voter was not sucessfully created, try again',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
     } else {
       window.alert('you are not old enough to vote');
     }
-  } 
+  }
 }

@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 import { Election } from '../../../_models/election';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { ElectionService} from '../../../services/election.service';
 import { ActivePageService} from '../../../services/active-page.service';
 import { ElectionEditComponent } from '../election-edit/election-edit.component';
@@ -33,7 +34,10 @@ export class ElectionListComponent implements OnInit {
     }
   };
 
-  constructor(private electionService: ElectionService, private pageData: ActivePageService) { }
+  constructor(
+    private electionService: ElectionService,
+    private notifierService: NotifierService,
+    private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
@@ -48,7 +52,7 @@ export class ElectionListComponent implements OnInit {
     this.electionService.getAll().subscribe(election => {
       if(election){ console.log(election);
         this.loading = false;
-        this.elections = election.result;  
+        this.elections = election.result;
       }
     });
   }
@@ -64,7 +68,31 @@ export class ElectionListComponent implements OnInit {
 
   deleteElection(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.electionService.delete(id).subscribe(data => this.loadElection());
+      this.electionService.delete(id).subscribe(data => {
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Deleted Sucessfully',
+          msg: 'Election was sucessfully deleted from the system',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        this.loadElection();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Delete failed',
+            msg: 'Election data  was not sucessfully deleted, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
     }
   }
 
