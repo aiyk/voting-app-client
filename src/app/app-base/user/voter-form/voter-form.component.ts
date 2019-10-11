@@ -72,6 +72,7 @@ export class VoterFormComponent implements OnInit {
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       othernames: [''],
+      useCredentials: [''],
       email: ['', Validators.required],
       country: ['', Validators.required],
       state: ['', Validators.required],
