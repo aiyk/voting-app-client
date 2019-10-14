@@ -68,18 +68,19 @@ export class VoteResultsComponent implements OnInit {
             if(partylist.indexOf(partyname) === -1){
               item.candidates.forEach( candidate =>{
                 if(this.compiledResult.length === 0){
-                  this.compiledResult.push([ partyname, 0, candidate.electionname ]);
-                }
-                let notInList = true;
-                this.compiledResult.forEach(entry => {
-                  if(entry[0] === partyname && entry[2] === candidate.electionname){
+                  this.compiledResult.push([ partyname, 0, candidate.electionname, false ]);
+                } else {
+                  let notInList = true;
+                  this.compiledResult.forEach(entry => {
+                    if(entry[0] === partyname && entry[2] === candidate.electionname){
+                      notInList = false;
+                    }
+                  });
+
+                  if(notInList){
+                    this.compiledResult.push([ partyname, 0, candidate.electionname, false ]);
                     notInList = false;
                   }
-                });
-
-                if(notInList){
-                  this.compiledResult.push([ partyname, 0, candidate.electionname ]);
-                  notInList = false;
                 }
               });
               this.elections.forEach(item => {
@@ -92,9 +93,11 @@ export class VoteResultsComponent implements OnInit {
                         }
                       });
                     }
+
                     this.compiledResult.forEach(partyResult => {
-                      if( partyResult[0] === vote.partyname && partyResult[2] === item.electionname){
+                      if( partyResult[0] === vote.partyname && partyResult[2] === item.electionname && partyResult[3] === false){
                         partyResult[1] ++;
+                        partyResult[3] = true;
                       }
                     });
 
