@@ -30,6 +30,9 @@ export class VoteComponent implements OnInit {
   votersPrints = [];
   vote: any = {};
 
+  inParty: any;
+  inElection: any;
+
   @Output() closeModal = new EventEmitter();
   @Input() initData: string; // country, state, lga, pooling unit
 
@@ -55,7 +58,42 @@ export class VoteComponent implements OnInit {
 
     this.voteService.connect();
     this.voteService.biometricListener.subscribe(val => {
+          // this.vote = this.initData;
+      this.vote.party_id = this.inParty;
+      this.vote.state_id = this.initData.state_id;
+      this.vote.lga_id = this.initData.lga_id;
+      this.vote.poolingUnit_id = this.initData.poolingUnit_id;
+      this.vote.election_id = this.inElection;
 
+      // console.log(this.vote);
+
+      this.voteService.voteWithPrints(this.vote)
+      .subscribe((data: {}) => {
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Voted Sucessfully',
+          msg: 'Your vote was sucessfully captured',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        // this.loadCountries();
+      },
+      error => {
+        let notificaationData = {
+          type: 'error', // ERROR SUCCESS INFO
+          title: 'Invalid vote',
+          msg: 'Your vote was not captured',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
+      this.onClose();
     });
 
     this.loadElection();
@@ -83,45 +121,9 @@ export class VoteComponent implements OnInit {
   }
 
   voteWithPrints(party, election){
-
+    this.inParty = party;
+    this.inElection = election;
     this.voterService.sendCommand("verify", this.votersPrints);
-
-    // this.vote = this.initData;
-    this.vote.party_id = party;
-    this.vote.state_id = this.initData.state_id;
-    this.vote.lga_id = this.initData.lga_id;
-    this.vote.poolingUnit_id = this.initData.poolingUnit_id;
-    this.vote.election_id = election;
-
-    // console.log(this.vote);
-
-    this.voteService.voteWithPrints(this.vote)
-    .subscribe((data: {}) => {
-      let notificaationData = {
-        type: 'success', // ERROR SUCCESS INFO
-        title: 'Voted Sucessfully',
-        msg: 'Your vote was sucessfully captured',
-        active: true
-      }
-
-      let _self = this;
-      this.notifierService.newNotification(notificaationData);
-      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
-      // this.loadCountries();
-    },
-    error => {
-      let notificaationData = {
-        type: 'error', // ERROR SUCCESS INFO
-        title: 'Invalid vote',
-        msg: 'Your vote was not captured',
-        active: true
-      }
-
-      let _self = this;
-      this.notifierService.newNotification(notificaationData);
-      setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
-    });
-    this.onClose();
     // this.router.navigate([this.returnUrl]);
   }
 
