@@ -33,6 +33,6 @@ export class OfficialService {
     return this.http.put<Official>(this.apiUrl + '/update/' + id, JSON.stringify(official));
   }
   delete(id): Observable<Official> {
-    return this.http.delete<Official>(this.apiUrl + '/delete/' + id);
+    return this.http.delete<Official>(this.apiUrl + '/delete/' + id); 
   }
 }

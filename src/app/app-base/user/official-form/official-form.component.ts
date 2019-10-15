@@ -99,11 +99,11 @@ export class OfficialFormComponent implements OnInit {
     };
 
     this.officialService.create(official)
-    .subscribe((data: {}) => {
+    .subscribe((data: {}) => { console.log(data.newUser.username);
       let notificaationData = {
         type: 'success', // ERROR SUCCESS INFO
-        title: 'Created Sucessfully',
-        msg: 'Official was sucessfully created',
+        title: 'Official created Sucessfully',
+        msg: 'Username => ' + data.newUser.username,
         active: true
       }
 
