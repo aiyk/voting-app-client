@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 import { Lga } from '../../../_models/lga';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { LgaService} from '../../../services/lga.service';
 import { ActivePageService} from '../../../services/active-page.service';
 import { LgaEditComponent } from '../lga-edit/lga-edit.component';
@@ -33,7 +34,10 @@ export class LgaListComponent implements OnInit {
     }
   };
 
-  constructor(private lgaService: LgaService, private pageData: ActivePageService) { }
+  constructor(
+    private lgaService: LgaService,
+    private notifierService: NotifierService,
+    private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
@@ -59,12 +63,36 @@ export class LgaListComponent implements OnInit {
     this.edit_mode = !this.edit_mode;
   }
   closeModal(){
-    this.edit_mode = false; 
+    this.edit_mode = false;
   }
 
   deleteLga(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.lgaService.delete(id).subscribe(data => this.loadlgas());
+      this.lgaService.delete(id).subscribe(data => {
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Deleted Sucessfully',
+          msg: 'LGA was sucessfully deleted from the system',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        this.loadlgas();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Delete failed',
+            msg: 'LGA data  was not sucessfully deleted, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
     }
   }
 

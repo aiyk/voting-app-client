@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '../_helpers/auth.guard';
+import { Role } from '../_models/role';
 
 import { AppBaseComponent } from './app-base.component';
 import { CountriesFormComponent } from './countries/countries-form/countries-form.component';
@@ -35,25 +36,25 @@ const routes: Routes = [
     component: AppBaseComponent,
     children: [
       { path: '', redirectTo: 'countries', pathMatch: 'full' },
-      { path: 'countries',  component: CountriesListComponent },
-      { path: 'countries-update',  component: CountriesFormComponent },
-      { path: 'states',  component: StatesListComponent },
-      { path: 'states-update',  component: StatesFormComponent },
-      { path: 'users',  component: UsersListComponent, canActivate: [AuthGuard] },
+      { path: 'countries',  component: CountriesListComponent , canActivate: [AuthGuard], data: { roles: [Role.Admin]} },
+      { path: 'countries-update',  component: CountriesFormComponent , canActivate: [AuthGuard], data: { roles: [Role.Admin]} },
+      { path: 'states',  component: StatesListComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
+      { path: 'states-update',  component: StatesFormComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
+      { path: 'users',  component: UsersListComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
       { path: 'users-update',  component: UsersFormComponent },
-      { path: 'lga',  component: LgaListComponent, canActivate: [AuthGuard] },
+      { path: 'lga',  component: LgaListComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
       { path: 'lga-update',  component: LgaFormComponent },
-      { path: 'unit',  component: PoolingUnitListComponent, canActivate: [AuthGuard] },
+      { path: 'unit',  component: PoolingUnitListComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
       { path: 'unit-update',  component: PoolingUnitFormComponent },
-      { path: 'elections',  component: ElectionListComponent, canActivate: [AuthGuard] },
+      { path: 'elections',  component: ElectionListComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
       { path: 'election-update',  component: ElectionFormComponent },
-      { path: 'party',  component: PartyListComponent, canActivate: [AuthGuard] },
+      { path: 'party',  component: PartyListComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
       { path: 'party-update',  component: PartyFormComponent },
-      { path: 'voter',  component: VoterListComponent, canActivate: [AuthGuard] },
+      { path: 'voter',  component: VoterListComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
       { path: 'voter-update',  component: VoterFormComponent },
-      { path: 'vote',  component: VoteInitComponent, canActivate: [AuthGuard] },
-      { path: 'vote-results',  component: VoteResultsComponent, canActivate: [AuthGuard] },
-      { path: 'official',  component: OfficialListComponent, canActivate: [AuthGuard] },
+      { path: 'vote',  component: VoteInitComponent, canActivate: [AuthGuard], data: { roles: [Role.Official] } },
+      { path: 'vote-results',  component: VoteResultsComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
+      { path: 'official',  component: OfficialListComponent, canActivate: [AuthGuard], data: { roles: [Role.Admin] } },
       { path: 'official-update',  component: OfficialFormComponent },
       // { path: 'lga-update/:id',  component: LgaEditComponent },
 

@@ -11,10 +11,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './_helpers/error.interceptor';
 import { JwtInterceptor} from './_helpers/jwt.interceptor';
 import { AuthService } from './services/auth.service';
+import { NotifierComponent } from './notifier/notifier.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    NotifierComponent
   ],
   imports: [
     BrowserModule,

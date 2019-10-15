@@ -9,6 +9,7 @@ import { Lga } from '../../../_models/lga';
 import { PoolingUnit } from '../../../_models/pooling-unit';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { CountryService} from '../../../services/country.service';
 import { StatesService} from '../../../services/states.service';
 import { LgaService} from '../../../services/lga.service';
@@ -49,6 +50,7 @@ export class PoolingUnitEditComponent implements OnInit {
 
   constructor(
     private countryService: CountryService,
+    private notifierService: NotifierService,
     private stateService: StatesService,
     private lgaService: LgaService,
     private poolingUnitService: PoolingUnitService,
@@ -146,12 +148,32 @@ export class PoolingUnitEditComponent implements OnInit {
 
       this.poolingUnitService.update(this.unitId, this.unit)
       .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
+          let notificaationData = {
+            type: 'success', // ERROR SUCCESS INFO
+            title: 'Sucessfully Edited',
+            msg: 'Pooling unit was sucessfully edited',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+          // this.loadCountries();
         },
         error => {
-            this.error = error;
-            this.loading = false;
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Update failed',
+            msg: 'Pooling unit data  was not sucessfully updated, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
         });
+        this.onClose();
+        this.router.navigate([this.returnUrl]);
     }
   }
 

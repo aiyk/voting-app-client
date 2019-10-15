@@ -1,0 +1,46 @@
+.notifier{
+  min-width: 20rem;
+  min-height: 5rem;
+  border-radius: .7rem;
+  position: absolute;
+  top: 5rem;
+  right: 5rem;
+  z-index: 5;
+  color: #000;
+}
+.theme--green{
+  background-color: var(--green);
+  // border: .1rem solid var(--green-dark);
+  .notifier__title{
+    padding: 1rem;
+    border-bottom: .1rem solid var(--green-dark);
+    font-style: italic;
+  }
+  .notifier__body{
+    padding: 2rem 1rem;
+  }
+}
+.theme--red{
+  background-color: var(--red);
+  // border: .1rem solid var(--red-dark);
+  .notifier__title{
+    padding: 1rem;
+    border-bottom: .1rem solid var(--red-dark);
+    font-style: italic;
+  }
+  .notifier__body{
+    padding: 2rem 1rem;
+  }
+}
+.theme--blue{
+  background-color: var(--blue-lite);
+  // border: .1rem solid var(--blue-dark);
+  .notifier__title{
+    padding: 1rem;
+    border-bottom: .1rem solid var(--blue-dark);
+    font-style: italic;
+  }
+  .notifier__body{
+    padding: 2rem 1rem;
+  }
+}

@@ -26,6 +26,7 @@ export class VoteResultsComponent implements OnInit {
   id: string;
   initData: any = {};
   compiledResult = [];
+  theCounter = 0;
 
   pgData = {
     title: 'Vote Results',
@@ -60,24 +61,26 @@ export class VoteResultsComponent implements OnInit {
 
         this.partyService.getAll().subscribe(party => {
           let partylist = [];
+          this.theCounter = party.result.length;
           party.result.map(item => {
             let partyname = item.partyname;
 
             if(partylist.indexOf(partyname) === -1){
               item.candidates.forEach( candidate =>{
                 if(this.compiledResult.length === 0){
-                  this.compiledResult.push([ partyname, 0, candidate.electionname ]);
-                }
-                let notInList = true;
-                this.compiledResult.forEach(entry => {
-                  if(entry[0] === partyname && entry[2] === candidate.electionname){
+                  this.compiledResult.push([ partyname, 0, candidate.electionname, false ]);
+                } else {
+                  let notInList = true;
+                  this.compiledResult.forEach(entry => {
+                    if(entry[0] === partyname && entry[2] === candidate.electionname){
+                      notInList = false;
+                    }
+                  });
+
+                  if(notInList){
+                    this.compiledResult.push([ partyname, 0, candidate.electionname, false ]);
                     notInList = false;
                   }
-                });
-
-                if(notInList){
-                  this.compiledResult.push([ partyname, 0, candidate.electionname ]);
-                  notInList = false;
                 }
               });
               this.elections.forEach(item => {
@@ -90,11 +93,19 @@ export class VoteResultsComponent implements OnInit {
                         }
                       });
                     }
+
                     this.compiledResult.forEach(partyResult => {
-                      if( partyResult[0] === vote.partyname && partyResult[2] === item.electionname){
+                      if( partyResult[0] === vote.partyname && partyResult[2] === item.electionname && partyResult[3] === false){
                         partyResult[1] ++;
+                        partyResult[3] = true;
                       }
                     });
+
+                    // this.compiledResult.forEach(partyResult => {
+                    //   console.log(partyResult, this.theCounter );
+                    //   partyResult[1] = ( partyResult[1] / this.theCounter );
+                    //   console.log(partyResult, this.theCounter );
+                    // });
                   });
                 });
               });

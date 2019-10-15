@@ -7,6 +7,7 @@ import { Country } from '../../../_models/country';
 import { State } from '../../../_models/state';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { CountryService} from '../../../services/country.service';
 import { StatesService} from '../../../services/states.service';
 import { ActivePageService} from '../../../services/active-page.service';
@@ -44,6 +45,7 @@ export class StateEditComponent implements OnInit {
 
   constructor(
     private countryService: CountryService,
+    private notifierService: NotifierService,
     private stateService: StatesService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -108,12 +110,32 @@ export class StateEditComponent implements OnInit {
 
       this.stateService.update(this.stateId, this.state)
       .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-            this.error = error;
-            this.loading = false;
-        });
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Sucessfully Edited',
+          msg: 'State was sucessfully edited',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        // this.loadCountries();
+      },
+      error => {
+        let notificaationData = {
+          type: 'error', // ERROR SUCCESS INFO
+          title: 'Update failed',
+          msg: 'State data  was not sucessfully updated, try again.',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
+      this.onClose();
+      this.router.navigate([this.returnUrl]);
     }
   }
 

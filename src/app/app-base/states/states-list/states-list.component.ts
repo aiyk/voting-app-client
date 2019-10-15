@@ -4,6 +4,7 @@ import { first } from 'rxjs/operators';
 import { State } from '../../../_models/state';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { StatesService} from '../../../services/states.service';
 import { ActivePageService} from '../../../services/active-page.service';
 import { StateEditComponent } from '../state-edit/state-edit.component';
@@ -33,7 +34,10 @@ export class StatesListComponent implements OnInit {
     }
   };
 
-  constructor(private stateService: StatesService, private pageData: ActivePageService) { }
+  constructor(
+    private stateService: StatesService,
+    private notifierService: NotifierService,
+    private pageData: ActivePageService) { }
 
   clickItemIndex: number;
   ngOnInit() {
@@ -64,7 +68,31 @@ export class StatesListComponent implements OnInit {
 
   deleteState(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.stateService.delete(id).subscribe(data => this.loadstates());
+      this.stateService.delete(id).subscribe(data => {
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Deleted Sucessfully',
+          msg: 'State was sucessfully deleted from the system',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        this.loadstates();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Delete failed',
+            msg: 'State data  was not sucessfully deleted, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
     }
   }
 

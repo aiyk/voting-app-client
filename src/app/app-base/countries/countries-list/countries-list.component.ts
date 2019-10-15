@@ -2,10 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 
 import { Country } from '../../../_models/country';
+import { User } from '../../../_models/user';
 
 import { AuthService } from '../../../services/auth.service';
 import { CountryService} from '../../../services/country.service';
 import { ActivePageService} from '../../../services/active-page.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { CountryEditComponent } from '../country-edit/country-edit.component'
 
 @Component({
@@ -24,6 +26,7 @@ export class CountriesListComponent implements OnInit {
   countries: Country[];
   formData: any;
   countryId: string;
+  currentUser: User;
 
   pgData = {
     title: 'List of Countries',
@@ -33,7 +36,12 @@ export class CountriesListComponent implements OnInit {
     }
   };
 
-  constructor(private countryService: CountryService, private pageData: ActivePageService) { }
+  constructor(private countryService: CountryService,
+    private pageData: ActivePageService,
+    private notifierService: NotifierService,
+    private authenticationService: AuthService) {
+      this.currentUser = this.authenticationService.currentUserValue;
+    }
 
   clickItemIndex: number;
   ngOnInit() {
@@ -64,7 +72,31 @@ export class CountriesListComponent implements OnInit {
 
   deleteCountry(id){
     if(window.confirm('are you sure you want to permanently delete?')){
-      this.countryService.delete(id).subscribe(data => this.loadCountries());
+      this.countryService.delete(id).subscribe(data => {
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Deleted Sucessfully',
+          msg: 'Country was sucessfully deleted from the system',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        this.loadCountries();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Delete failed',
+            msg: 'Country data  was not sucessfully deleted, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
     }
   }
 

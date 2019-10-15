@@ -6,6 +6,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Election } from '../../../_models/election';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { ElectionService} from '../../../services/election.service';
 import { PartyService} from '../../../services/party.service';
 import { ActivePageService} from '../../../services/active-page.service';
@@ -41,6 +42,7 @@ export class PartyEditComponent implements OnInit {
 
   constructor(
     private partyService: PartyService,
+    private notifierService: NotifierService,
     private electionService: ElectionService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -95,12 +97,32 @@ export class PartyEditComponent implements OnInit {
 
       this.partyService.update(this.partyId, this.party)
       .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-            this.error = error;
-            this.loading = false;
-        });
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Sucessfully Edited',
+          msg: 'Party was sucessfully edited',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        // this.loadCountries();
+      },
+      error => {
+          let notificaationData = {
+            type: 'error', // ERROR SUCCESS INFO
+            title: 'Update failed',
+            msg: 'Party data  was not sucessfully updated, try again.',
+            active: true
+          }
+
+          let _self = this;
+          this.notifierService.newNotification(notificaationData);
+          setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
+      this.onClose();
+      this.router.navigate([this.returnUrl]);
     }
   }
 

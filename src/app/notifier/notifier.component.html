@@ -1,0 +1,4 @@
+<div class="notifier" [ngClass]="{'theme--green': data.type=='success', 'theme--red':data.type=='error', 'theme--blue':data.type=='info' }">
+  <div class="notifier__title">{{data.title}}</div>
+  <div class="notifier__body">{{data.msg}}</div>
+</div>

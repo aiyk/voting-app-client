@@ -10,6 +10,7 @@ import { PoolingUnit } from '../../../_models/pooling-unit';
 import { Voter } from '../../../_models/voter';
 
 import { AuthService } from '../../../services/auth.service';
+import { NotifierService} from '../../../services/notifier.service';
 import { CountryService} from '../../../services/country.service';
 import { StatesService} from '../../../services/states.service';
 import { LgaService} from '../../../services/lga.service';
@@ -52,6 +53,7 @@ export class VoterEditComponent implements OnInit {
 
   constructor(
     private voterService: VoterService,
+    private notifierService: NotifierService,
     private countryService: CountryService,
     private stateService: StatesService,
     private lgaService: LgaService,
@@ -90,7 +92,7 @@ export class VoterEditComponent implements OnInit {
     this.returnUrl = '/';
     this.voterService.connect();
     this.voterService.biometricListener.subscribe(val => {
-      
+
     });
   }
 
@@ -171,12 +173,32 @@ export class VoterEditComponent implements OnInit {
 
       this.voterService.update(this.voterId, this.voter)
       .subscribe((data: {}) => {
-          this.router.navigate([this.returnUrl]);
-        },
-        error => {
-            this.error = error;
-            this.loading = false;
-        });
+        let notificaationData = {
+          type: 'success', // ERROR SUCCESS INFO
+          title: 'Sucessfully Edited',
+          msg: 'Voter was sucessfully edited',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+        // this.loadCountries();
+      },
+      error => {
+        let notificaationData = {
+          type: 'error', // ERROR SUCCESS INFO
+          title: 'Update failed',
+          msg: 'Voter data  was not sucessfully updated, try again.',
+          active: true
+        }
+
+        let _self = this;
+        this.notifierService.newNotification(notificaationData);
+        setTimeout(function(){ _self.notifierService.resetNotification(); }, 5000);
+      });
+      this.onClose();
+      this.router.navigate([this.returnUrl]);
     }
   }
 
