@@ -16,10 +16,10 @@ describe('ElectionListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ElectionListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture.detectChanges(); 
+  }); 
 
-  it('should create', () => {
+  it('should create', () => { 
     expect(component).toBeTruthy();
   });
 });
