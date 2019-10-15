@@ -6,8 +6,7 @@ import { AuthService } from '../services/auth.service';
 import { User } from '../_models/user';
 
 declare var SockJS;
-declare var Stomp;
-
+declare var Stomp;   
 @Injectable({
   providedIn: 'root'
 })
